@@ -28,7 +28,7 @@ ORG = {
     "telephone": FIRMA["tel_link"], "email": FIRMA["mail"],
     "address": {"@type": "PostalAddress", "streetAddress": FIRMA["strasse"], "postalCode": FIRMA["plz"],
                 "addressLocality": FIRMA["ort"], "addressCountry": "DE"},
-    "areaServed": {"@type": "Country", "name": "Deutschland"},
+    "areaServed": [{"@type": "City", "name": n} for n in ("Stolberg (Rheinland)", "Aachen", "Eschweiler", "Würselen", "Alsdorf", "Herzogenrath", "Düren")] + [{"@type": "AdministrativeArea", "name": "Städteregion Aachen"}, {"@type": "Country", "name": "Deutschland"}],
     "priceRange": "250 € einmalig, 59 € monatlich",
 }
 
@@ -48,7 +48,7 @@ def kopf(titel, beschreibung, datei, aktiv=None, jsonld=None, noindex=False, sta
     ld = [ORG] + (jsonld or [])
     ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
     robots = '<meta name="robots" content="noindex">' if noindex else ""
-    importmap = '<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>\n' if startseite else ""
+    importmap = '<script type="importmap">{"imports":{"three":"./vendor/three/three.module.min.js","three/addons/":"./vendor/three/addons/"}}</script>\n' if startseite else ""
     koerper = ' class="seite-dunkel"' if startseite else ""
     raum = '<canvas class="raum" aria-hidden="true"></canvas>\n' if startseite else ""
     intro = f'<div class="intro" aria-hidden="true"><span class="marke">crestra<span class="cursor"></span></span></div>' if startseite else ""
@@ -105,16 +105,17 @@ def fuss(cta=True, startseite=False):
         <p>Websites für Betriebe in ganz Deutschland.<br>Inhaber {FIRMA["inhaber"]}</p>
         <p>{FIRMA["strasse"]}, {FIRMA["plz"]} {FIRMA["ort"]}<br><a href="mailto:{FIRMA["mail"]}">{FIRMA["mail"]}</a><br><a href="tel:{FIRMA["tel_link"]}">{FIRMA["tel"]}</a></p>
       </div>
-      <div><h4>Angebot</h4><ul><li><a href="leistung.html">Leistung &amp; Preis</a></li><li><a href="ablauf.html">Ablauf</a></li><li><a href="faq.html">Fragen</a></li></ul></div>
-      <div><h4>Mehr</h4><ul><li><a href="ueber-uns.html">Über crestra</a></li><li><a href="ratgeber.html">Ratgeber</a></li><li><a href="kontakt.html">Kontakt</a></li><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li></ul></div>
+      <div><h4>Angebot</h4><ul><li><a href="leistung.html">Leistung &amp; Preis</a></li><li><a href="ablauf.html">Ablauf</a></li><li><a href="faq.html">Fragen</a></li><li><a href="website-stolberg-aachen.html">Stolberg &amp; Aachen</a></li></ul></div>
+      <div><h4>Mehr</h4><ul><li><a href="ueber-uns.html">Über crestra</a></li><li><a href="ratgeber.html">Ratgeber</a></li><li><a href="kontakt.html">Kontakt</a></li><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="#cookie-einstellungen" data-cookie-settings>Cookie-Einstellungen</a></li></ul></div>
     </div>
-    <div class="unten"><span>© <span data-jahr>2026</span> crestra · {FIRMA["inhaber"]}</span><span>Ohne Cookies, ohne Tracking.</span></div>
+    <div class="unten"><span>© <span data-jahr>2026</span> crestra · {FIRMA["inhaber"]}</span><span>Ohne Werbe-Tracking.</span></div>
   </div>
 </footer>
 {kc}
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js" defer></script>
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="vendor/lenis.min.js" defer></script>
+<script src="https://sales.crestra.de/a.js" defer data-privacy="datenschutz.html"></script>
 <script src="welle.js?v={V}" defer></script>
 <script src="main.js?v={V}" defer></script>
 {'<script type="module" src="raum.js?v=' + V + '"></script>' if startseite else ""}
@@ -203,7 +204,7 @@ def seite(datei, titel, beschreibung, inhalt, aktiv=None, jsonld=None, noindex=F
 
 
 # =====================================================================  STARTSEITE
-seite("index.html", "crestra – Websites, die Ihnen Aufträge bringen",
+seite("index.html", "Website erstellen lassen in Stolberg & Aachen | crestra",
       "Websites für Betriebe jeder Branche, von Hand gebaut. Gratis-Entwurf, dann 250 € einmalig und 59 € im Monat – Hosting, Domain und Pflege inklusive.",
       f'''
 <section class="held" data-dunkel data-szene="held">
@@ -296,7 +297,7 @@ seite("index.html", "crestra – Websites, die Ihnen Aufträge bringen",
 ''', startseite=True)
 
 # =====================================================================  LEISTUNG & PREIS
-seite("leistung.html", "Leistung & Preis – crestra",
+seite("leistung.html", "Website-Preis: 250 € + 59 €/Monat – Leistung | crestra",
       "250 € einmalig und 59 € im Monat: Erstellung, Hosting, Domain, Pflege und Wartung. 12 Monate Mindestlaufzeit, danach monatlich kündbar.",
       seitenkopf([("index.html", "Start"), (None, "Leistung & Preis")], "Ein Preis, <em class=\"a\">ohne</em> Kleingedrucktes.",
                  "250 € einmalig und 59 € im Monat. Dafür bekommen Sie eine fertige Website und jemanden, der sich darum kümmert.")
@@ -353,6 +354,23 @@ seite("ablauf.html", "Ablauf – vom Entwurf zur fertigen Website | crestra",
   <li class="auf"><h2>Livegang</h2><div><p>Wir richten Domain und Hosting ein und schalten die Seite frei. Eine bestehende Adresse lässt sich meist übernehmen.</p></div></li>
   <li class="auf"><h2>Pflege</h2><div><p>Neue Preise, Öffnungszeiten, Fotos oder Neuigkeiten schicken Sie per E-Mail – wir setzen sie ein. Größere Erweiterungen besprechen wir vorher.</p></div></li>
 </ol></div></section>''' + cta_band())
+
+# =====================================================================  STOLBERG & AACHEN
+seite("website-stolberg-aachen.html", "Webdesign in Stolberg, Aachen & Städteregion | crestra",
+      "Websites für Betriebe aus Stolberg, Aachen, Eschweiler, Würselen und der Städteregion. Gratis-Entwurf, dann 250 € einmalig und 59 € im Monat.",
+      seitenkopf([("index.html", "Start"), (None, "Stolberg & Aachen")], "Ihre Website, <em class=\"a\">gebaut</em> in Stolberg.",
+                 "crestra sitzt in Stolberg (Rheinland). Wir bauen Websites für Betriebe aus Stolberg, Aachen und der ganzen Städteregion – und für Betriebe in ganz Deutschland.")
+      + f"""
+<section class="abschnitt"><div class="wrap"><div class="prose">
+<h2>Ein Ansprechpartner aus der Region</h2>
+<p>Hinter crestra steht {FIRMA["inhaber"]}, {FIRMA["strasse"]}, {FIRMA["plz"]} {FIRMA["ort"]}. Sie erreichen ihn direkt unter <a href="tel:{FIRMA["tel_link"]}">{FIRMA["tel"]}</a> oder per <a href="mailto:{FIRMA["mail"]}">E-Mail</a> – ohne Callcenter und ohne wechselnde Zuständigkeiten.</p>
+<h2>Für welche Betriebe?</h2>
+<p>Für Handwerksbetriebe, Restaurants und Imbisse, Praxen, Händler, Dienstleister und Vereine aus Stolberg, Aachen, Eschweiler, Würselen, Alsdorf, Herzogenrath, Düren und Umgebung. Ob Sie zum ersten Mal eine Website brauchen oder Ihre alte Seite ersetzen wollen: Sie bekommen eine Seite, die auf dem Handy gut aussieht, schnell lädt und Kunden zeigt, wie sie Sie erreichen.</p>
+<h2>Was es kostet</h2>
+<p>250 € einmalig für die Erstellung und 59 € im Monat für Hosting, Domain, Pflege und Wartung. Die Mindestlaufzeit beträgt 12 Monate, danach ist der Vertrag monatlich kündbar. Alle Einzelheiten stehen unter <a href="leistung.html">Leistung &amp; Preis</a>.</p>
+<h2>So läuft es ab</h2>
+<p>Sie schicken uns Ihre Firma und Ihre jetzige Website. Wir bauen einen Entwurf Ihrer Startseite und schicken Ihnen den Link – gratis und unverbindlich. Gefällt er Ihnen, bauen wir die übrigen Seiten, richten Domain und Hosting ein und schalten die Seite frei. Danach schicken Sie Änderungen einfach per E-Mail. Mehr dazu unter <a href="ablauf.html">Ablauf</a>.</p>
+</div></div></section>""" + cta_band())
 
 # =====================================================================  ÜBER
 seite("ueber-uns.html", "Über crestra – Nils Cremerius, Stolberg",
@@ -529,7 +547,7 @@ artikel("ratgeber-kaufen-oder-mieten.html", '''
 ''')
 
 # =====================================================================  KONTAKT, DANKE, 404
-seite("kontakt.html", "Gratis-Entwurf anfordern – crestra",
+seite("kontakt.html", "Gratis-Entwurf für Ihre Website anfordern – crestra Stolberg",
       "Lassen Sie sich gratis einen Entwurf Ihrer neuen Website erstellen. Firma und jetzige Website schicken – unverbindlich.",
       seitenkopf([("index.html", "Start"), (None, "Kontakt")], "Ihr <em class=\"a\">Gratis</em>-Entwurf",
                  "Ein paar Angaben genügen. Wir erstellen Ihren Entwurf und schicken Ihnen den Link – gratis und unverbindlich.")
@@ -575,18 +593,19 @@ seite("impressum.html", "Impressum – crestra", "Impressum von crestra, Inhaber
 </div></div></section>''', noindex=False, cta=False)
 
 seite("datenschutz.html", "Datenschutzerklärung – crestra", "Wie crestra beim Besuch dieser Website und bei Anfragen mit Ihren Daten umgeht.",
-      seitenkopf([("index.html", "Start"), (None, "Datenschutz")], "Datenschutz", "Kurz gesagt: keine Cookies, kein Tracking. Daten verarbeiten wir nur, wenn Sie uns eine Anfrage schicken.")
+      seitenkopf([("index.html", "Start"), (None, "Datenschutz")], "Datenschutz", "Kurz gesagt: keine Werbe-Cookies, keine Analyse durch Dritte. Seitenaufrufe zählen wir selbst und anonym, mehr nur mit Ihrer Einwilligung.")
       + f'''<section class="abschnitt" style="padding-top:clamp(48px,6vw,80px)"><div class="wrap"><div class="prose">
 <h2>Verantwortlicher</h2>
 <p>{FIRMA["inhaber"]} (crestra), {FIRMA["strasse"]}, {FIRMA["plz"]} {FIRMA["ort"]}<br>E-Mail: <a href="mailto:{FIRMA["mail"]}">{FIRMA["mail"]}</a>, Telefon: {FIRMA["tel"]}</p>
 <h2>Hosting und Server-Protokolle</h2>
-<p>Diese Website wird bei GitHub Pages gehostet (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA). Beim Aufruf verarbeitet der Hoster technisch notwendige Daten wie IP-Adresse, Zeitpunkt, aufgerufene Seite und Browser-Kennung, um die Seite auszuliefern und vor Missbrauch zu schützen. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Dabei können Daten in die USA übermittelt werden; GitHub ist nach dem EU-US Data Privacy Framework zertifiziert. Mehr dazu in der <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
-<h2>Skripte von jsDelivr</h2>
-<p>Für Animationen laden wir die Bibliotheken GSAP und Lenis über das Content-Delivery-Netzwerk jsDelivr. Dabei wird Ihre IP-Adresse an den Betreiber übermittelt, damit die Dateien ausgeliefert werden können. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
-<h2>Schriften</h2>
-<p>Die Schriften liegen auf unserem eigenen Server. Es werden keine Verbindungen zu Google Fonts aufgebaut.</p>
-<h2>Cookies und Tracking</h2>
-<p>Diese Website setzt keine Cookies und verwendet keine Analyse- oder Werbedienste. Im Speicher Ihres Browsers (Session Storage) wird lediglich vermerkt, dass die Begrüßungsanimation schon gezeigt wurde; dieser Eintrag wird beim Schließen des Tabs gelöscht und ist für die gewünschte Darstellung erforderlich (§ 25 Abs. 2 TDDDG).</p>
+<p>Diese Website wird bei Cloudflare Pages gehostet (Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA). Beim Aufruf verarbeitet der Hoster technisch notwendige Daten wie IP-Adresse, Zeitpunkt, aufgerufene Seite und Browser-Kennung, um die Seite auszuliefern und vor Missbrauch zu schützen. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Cloudflare verarbeitet die Daten in unserem Auftrag (Art. 28 DSGVO). Dabei können Daten in die USA übermittelt werden; Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert. Mehr dazu in der <a href="https://www.cloudflare.com/de-de/privacypolicy/" target="_blank" rel="noopener">Datenschutzerklärung von Cloudflare</a>.</p>
+<h2>Schriften und Skripte</h2>
+<p>Schriften und Skripte (z. B. für Animationen) liegen auf unserem eigenen Server. Es werden keine Verbindungen zu Google Fonts oder anderen Content-Delivery-Netzwerken aufgebaut.</p>
+<h2>Reichweitenmessung</h2>
+<p>Um unser Angebot zu verbessern, zählen wir Seitenaufrufe mit einem eigenen Verfahren, ohne Drittanbieter. <b>Ohne Ihre Einwilligung</b> speichern wir nichts auf Ihrem Gerät. Erfasst werden nur die aufgerufene Seite, die verweisende Website, Kampagnenkennzeichen aus dem Link, Gerätetyp, Browserfamilie und Land. Ihre IP-Adresse wird nicht gespeichert. Rechtsgrundlage ist unser berechtigtes Interesse an der Verbesserung des Angebots (Art. 6 Abs. 1 lit. f DSGVO).</p>
+<p><b>Mit Ihrer Einwilligung</b> (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG) speichern wir zusätzlich eine zufällige Kennung im Speicher Ihres Browsers. So erkennen wir, welche Seiten Sie bei einem Besuch ansehen und ob Sie wiederkommen. Sie können die Einwilligung jederzeit über „Cookie-Einstellungen“ im Seitenfuß widerrufen. Die Daten werden auf Servern von Cloudflare verarbeitet und nach 13 Monaten auf anonyme Tagessummen reduziert.</p>
+<h2>Cookies und Browserspeicher</h2>
+<p>Diese Website setzt keine Cookies und verwendet keine Werbedienste. Ihre Auswahl im Einwilligungsbanner wird im Speicher Ihres Browsers abgelegt (§ 25 Abs. 2 TDDDG). Im Speicher Ihres Browsers (Session Storage) wird lediglich vermerkt, dass die Begrüßungsanimation schon gezeigt wurde; dieser Eintrag wird beim Schließen des Tabs gelöscht und ist für die gewünschte Darstellung erforderlich (§ 25 Abs. 2 TDDDG).</p>
 <h2>Anfrageformular</h2>
 <p>Wenn Sie das Formular nutzen, speichern wir Ihre Angaben (Firma, Name, E-Mail, Telefon, Website, Branche, gewünschter Stil, Nachricht) und die Seite, von der Sie die Anfrage geschickt haben, um Ihre Anfrage zu bearbeiten und Ihnen einen Entwurf zu schicken. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags). Die Daten werden in einer Datenbank des Anbieters Supabase gespeichert (Supabase Inc.; Serverstandort Irland, EU) und gelöscht, wenn sie für die Bearbeitung nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
 <h2>E-Mail</h2>
