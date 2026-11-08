@@ -2,7 +2,7 @@
 """crestra – Seitengenerator. Aufruf: python3 _build.py  (schreibt alle .html-Dateien neu)"""
 import json, os
 
-V = "20261109a"
+V = "20261109b"
 BASE = "https://crestra.de/"
 HIER = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,7 +48,10 @@ def kopf(titel, beschreibung, datei, aktiv=None, jsonld=None, noindex=False, sta
     ld = [ORG] + (jsonld or [])
     ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
     robots = '<meta name="robots" content="noindex">' if noindex else ""
-    importmap = koerper = raum = intro = ""
+    importmap = '<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>\n' if startseite else ""
+    koerper = ' class="seite-dunkel"' if startseite else ""
+    raum = '<canvas class="raum" aria-hidden="true"></canvas>\n' if startseite else ""
+    intro = f'<div class="intro" aria-hidden="true"><span class="marke">crestra<span class="cursor"></span></span></div>' if startseite else ""
     return f'''<!doctype html>
 <html lang="de">
 <head>
@@ -57,7 +60,7 @@ def kopf(titel, beschreibung, datei, aktiv=None, jsonld=None, noindex=False, sta
 <title>{titel}</title>
 <meta name="description" content="{beschreibung}">
 {robots}<link rel="canonical" href="{url}">
-<meta name="theme-color" content="#ffffff"><meta name="color-scheme" content="light">
+<meta name="theme-color" content="#05080f"><meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website"><meta property="og:locale" content="de_DE"><meta property="og:site_name" content="crestra">
 <meta property="og:title" content="{titel}"><meta property="og:description" content="{beschreibung}">
 <meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -70,11 +73,13 @@ def kopf(titel, beschreibung, datei, aktiv=None, jsonld=None, noindex=False, sta
 </head>
 <body{koerper}>
 {raum}<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+{intro}<div class="fortschritt" aria-hidden="true"></div>
+<div class="vorhang" aria-hidden="true"></div>
 <header class="kopf">
   <div class="wrap">
     {MARKE}
     <nav class="nav" aria-label="Hauptmenü">{nav_html(aktiv)}</nav>
-    <a class="btn" href="kontakt.html">Gratis-Entwurf</a>
+    <a class="btn" href="kontakt.html" data-magnet="aus">Gratis-Entwurf</a>
     <button class="burger" type="button" aria-expanded="false" aria-controls="menue" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -107,7 +112,12 @@ def fuss(cta=True, startseite=False):
   </div>
 </footer>
 {kc}
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="welle.js?v={V}" defer></script>
 <script src="main.js?v={V}" defer></script>
+{'<script type="module" src="raum.js?v=' + V + '"></script>' if startseite else ""}
+<script>addEventListener('pageshow',()=>{{const v=document.querySelector('.vorhang');if(v&&sessionStorage.getItem('crestra-intro')){{v.classList.add('rein');requestAnimationFrame(()=>requestAnimationFrame(()=>{{v.classList.remove('rein');v.classList.add('raus')}}))}}}})</script>
 </body>
 </html>
 '''
@@ -116,7 +126,7 @@ def fuss(cta=True, startseite=False):
 def seitenkopf(pfad, h1, lead):
     pf = ' <span aria-hidden="true">/</span> '.join(
         [f'<a href="{h}">{t}</a>' if h else f'<span aria-current="page">{t}</span>' for h, t in pfad])
-    return f'''<section class="seitenkopf"><div class="wrap">
+    return f'''<section class="seitenkopf" data-dunkel><canvas class="welle welle-leise" data-welle aria-hidden="true"></canvas><div class="wrap">
   <nav class="pfad" aria-label="Brotkrümel">{pf}</nav>
   <div class="reihe"><h1 class="wr">{h1}</h1><p class="lead auf">{lead}</p></div>
 </div></section>'''
@@ -195,77 +205,90 @@ def seite(datei, titel, beschreibung, inhalt, aktiv=None, jsonld=None, noindex=F
 seite("index.html", "crestra – Websites, die Ihnen Aufträge bringen",
       "Websites für Betriebe jeder Branche, von Hand gebaut. Gratis-Entwurf, dann 250 € einmalig und 59 € im Monat – Hosting, Domain und Pflege inklusive.",
       f'''
-<section class="einstieg ruhig-held"><div class="wrap">
-  <h1 class="wr">Websites, die Ihnen <em class="a">Aufträge</em> bringen.</h1>
-  <div class="einstieg-text">
-    <p class="lead auf">Wir erstellen Ihnen gratis einen Entwurf Ihrer neuen Website. Gefällt er Ihnen, machen wir ihn fertig und kümmern uns um alles Weitere. Gefällt er Ihnen nicht, kostet Sie das nichts.</p>
-    <div class="knoepfe auf"><a class="btn" href="#anfrage">Gratis-Entwurf anfordern {PFEIL}</a><a class="btn zwei" href="#ablauf">So funktioniert's</a></div>
+<section class="held" data-dunkel data-szene="held">
+  <div class="held-licht" aria-hidden="true"></div>
+  <div class="wrap held-inhalt">
+    <h1 class="held-titel" data-buchstaben><span class="zl">Websites,</span> <span class="zl">die Ihnen</span> <span class="zl"><em class="a">Aufträge</em></span> <span class="zl">bringen.<span class="cursor" aria-hidden="true"></span></span></h1>
+    <div class="held-unten">
+      <p class="held-lead auf" data-v=".9"><strong>Lassen Sie sich gratis einen Entwurf Ihrer neuen Website erstellen.</strong> Unverbindlich, komplett per E-Mail – für Betriebe in ganz Deutschland.</p>
+      <div class="knoepfe auf" data-v="1.05"><a class="btn hell" href="#anfrage">Gratis-Entwurf anfordern {PFEIL}</a><a class="btn zwei" href="#weg">So funktioniert's</a></div>
+    </div>
   </div>
-  <dl class="eckdaten auf">
-    <div><dt>Einmalig</dt><dd>250 €</dd></div>
-    <div><dt>Im Monat</dt><dd>59 €</dd></div>
-    <div><dt>Inklusive</dt><dd>Hosting, Domain, Pflege</dd></div>
-  </dl>
+  <div class="held-fuss auf" data-v="1.2" aria-hidden="true"><span>250 € einmalig</span><span>59 € im Monat</span><span>Hosting, Domain, Pflege inklusive</span></div>
+</section>
+
+<section class="spiel" data-szene="spiel" aria-label="Effekte zum Ausprobieren"><div class="wrap">
+  <div class="kopfzeile"><h2 class="wr">Fühlen Sie <em class="a">mal.</em></h2>
+    <p class="lead auf">Kleine Details, die Besucher länger bleiben lassen. Bewegen Sie die Maus darüber – oder tippen Sie auf dem Handy.</p></div>
+  <div class="spiel-raster">
+    <div class="kachel auf" data-scramble tabindex="0"><span class="kachel-name">Text, der lebendig wird <em>Tippen</em></span><div class="buehne-k"><p class="scramble-wort" data-wort="Aufmerksamkeit">Aufmerksamkeit</p></div></div>
+    <div class="kachel auf"><span class="kachel-name">Karten mit Tiefe <em>Karte ziehen</em></span><div class="buehne-k kachel-tief"><div class="tief-karte" data-kippen><div class="tief-glanz"></div><strong>59 €</strong><span>im Monat, alles drin</span></div></div></div>
+    <div class="kachel auf"><span class="kachel-name">Knöpfe, die anziehen <em>Daneben tippen</em></span><div class="buehne-k" data-magnet-feld><button type="button" class="magnet-knopf">Klick mich</button></div></div>
+    <div class="kachel kachel-dunkel auf"><span class="kachel-name">Licht, das folgt <em>Mit dem Finger malen</em></span><div class="buehne-k" data-spur><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  </div>
+  <p class="auf spiel-fuss">Das alles – und mehr – kann Ihre Website auch. <a class="link" href="#anfrage">Gratis-Entwurf anfordern</a></p>
 </div></section>
 
-<section class="abschnitt grau" id="ablauf"><div class="wrap">
-  <div class="kopfzeile"><h2 class="wr">In vier Schritten zur <em class="a">neuen</em> Website.</h2>
-    <p class="lead auf">Komplett per E-Mail, für Betriebe in ganz Deutschland. Sie müssen nichts vorbereiten und niemanden anrufen.</p></div>
+<section class="marke-szene" data-szene="marke" aria-label="crestra"><p class="marke-unter auf">Websites, die bleiben.</p></section>
+
+<section class="schritte4" data-szene="weg" id="weg"><div class="wrap">
+  <h2 class="wr">So bekommen Sie Ihren <em class="a">Gratis-Entwurf.</em></h2>
   <ol class="vier">
-    <li class="auf"><span class="nr">1</span><h3>Anfrage</h3><p>Sie schicken uns Ihre Firma und – falls vorhanden – Ihre jetzige Website.</p></li>
-    <li class="auf"><span class="nr">2</span><h3>Entwurf</h3><p>Wir bauen Ihre neue Startseite und schicken Ihnen einen Link. Gratis.</p></li>
-    <li class="auf"><span class="nr">3</span><h3>Entscheidung</h3><p>Gefällt sie Ihnen, machen wir sie fertig. Wenn nicht, ist nichts passiert.</p></li>
-    <li class="auf"><span class="nr">4</span><h3>Live</h3><p>Domain, Hosting und Pflege übernehmen wir. Änderungen schicken Sie per E-Mail.</p></li>
+    <li class="auf"><span class="nr">01</span><h3>Anfrage</h3><p>Sie schicken uns Ihre Firma und – falls vorhanden – Ihre jetzige Website. Kein Anruf nötig.</p></li>
+    <li class="auf"><span class="nr">02</span><h3>Entwurf</h3><p>Wir bauen Ihre neue Startseite. Gratis. Sie bekommen einen Link und sehen sie sich in Ruhe an.</p></li>
+    <li class="auf"><span class="nr">03</span><h3>Entscheidung</h3><p>Gefällt sie Ihnen, machen wir sie fertig. Wenn nicht, ist nichts passiert.</p></li>
+    <li class="auf"><span class="nr">04</span><h3><em class="a">Live.</em></h3><p>Domain, Hosting, Pflege – wir kümmern uns. Änderungen schicken Sie per E-Mail.</p></li>
   </ol>
 </div></section>
 
-<section class="abschnitt" id="fuer-wen"><div class="wrap zwei-sp">
-  <div><h2 class="wr">Für jeden Betrieb, der <em class="a">gefunden</em> werden will.</h2>
-    <p class="lead auf" style="margin-top:20px">Ob Handwerk, Praxis oder Autohaus: Wir bauen die Seite so, wie Ihre Kunden suchen und entscheiden.</p>
-    <p class="auf"><a class="link" href="#anfrage">Ihre Branche ist nicht dabei? Fragen Sie trotzdem.</a></p></div>
-  <ul class="liste auf">
+<section class="wand" data-dunkel data-szene="wand" id="fuer-wen"><div class="wrap">
+  <p class="wand-kopf auf">Für jeden Betrieb, der <em class="a">gefunden</em> werden will.</p>
+  <ul class="wand-liste">
     <li><strong>Handwerk</strong><span>Anfragen mit Fotos vom Schaden, damit der erste Termin sitzt.</span></li>
     <li><strong>Gastronomie</strong><span>Speisekarte, Öffnungszeiten und Anruf mit einem Tipp.</span></li>
     <li><strong>Autohäuser</strong><span>Fahrzeugbestand aus mobile.de direkt auf der eigenen Seite.</span></li>
     <li><strong>Makler</strong><span>Angebote automatisch aus dem Immobilienportal.</span></li>
-    <li><strong>Praxen und Dienstleister</strong><span>Leistungen, Team und Erreichbarkeit auf einen Blick.</span></li>
+    <li><strong>Praxen</strong><span>Leistungen, Team und Sprechzeiten auf einen Blick.</span></li>
   </ul>
+  <p class="wand-fuss auf">Ihre Branche ist nicht dabei? <a class="link" href="#anfrage">Fragen Sie trotzdem.</a></p>
 </div></section>
 
-<section class="abschnitt grau" id="rechner"><div class="wrap">
+<section class="abschnitt grau" data-szene="rechner" id="rechner"><div class="wrap">
   <div class="kopfzeile"><h2 class="wr">Rechnet sich <em class="a">das?</em></h2>
-    <p class="lead auf">Tragen Sie ein, was ein Auftrag bei Ihnen wert ist. Dann sehen Sie, wie wenig die Website leisten muss, um sich zu bezahlen.</p></div>
+    <p class="lead auf">Tragen Sie ein, was ein Auftrag oder ein Kunde bei Ihnen wert ist. Dann sehen Sie, wie wenig die Website leisten muss, um sich zu bezahlen.</p></div>
   <div class="auf">{rechner()}</div>
 </div></section>
 
-<section class="abschnitt" id="preis"><div class="wrap preis">
-  <div>
-    <h2 class="wr">Ein Paket. <em class="a">Alles</em> drin.</h2>
-    <div class="preiszahl auf"><div><strong>250 €</strong><span>einmalig</span></div><div><strong>59 €</strong><span>im Monat</span></div></div>
-    <p class="auf" style="color:var(--ink-2)">Mindestlaufzeit 12 Monate, danach monatlich kündbar. Nur für Unternehmen. <a class="link" href="leistung.html">Alle Details</a></p>
+<section class="preisbuehne" data-dunkel data-szene="preis" id="preis"><div class="wrap">
+  <p class="preis-kopf auf">Ein Paket. <em class="a">Alles</em> drin.</p>
+  <div class="preis-riesig">
+    <div class="pr"><span class="pr-zahl" data-maske>250 €</span><span class="pr-text">einmalig</span></div>
+    <div class="pr"><span class="pr-zahl" data-maske>59 €</span><span class="pr-text">im Monat</span></div>
   </div>
-  <ul class="drin">
+  <ul class="preis-drin">
     <li class="auf">{HAKEN}<div><strong>Ihre Website, von Hand gebaut</strong><span>Kein Baukasten. Aufbau und Gestaltung passend zu Ihrem Betrieb.</span></div></li>
     <li class="auf">{HAKEN}<div><strong>Hosting und Domain</strong><span>Adresse, Server und Sicherheitszertifikat – erledigt.</span></div></li>
     <li class="auf">{HAKEN}<div><strong>Laufende Pflege</strong><span>Texte, Preise, Öffnungszeiten, Fotos – Sie schicken, wir setzen ein.</span></div></li>
     <li class="auf">{HAKEN}<div><strong>Wartung und Fehlerbehebung</strong><span>Wenn etwas nicht läuft, beheben wir es.</span></div></li>
   </ul>
+  <p class="preis-klein auf">Mindestlaufzeit 12 Monate, danach monatlich kündbar. Nur für Unternehmen. <a class="link" href="leistung.html">Alle Details</a></p>
 </div></section>
 
-<section class="abschnitt night" id="anfrage"><div class="wrap anfrage">
+<section class="abschnitt night anfrage-held" data-dunkel data-szene="anfrage" id="anfrage">
+  <div class="wrap anfrage">
   <div>
     <h2 class="wr">Ihr Entwurf. <em class="a">Gratis</em> und unverbindlich.</h2>
-    <p class="lead auf" style="margin-top:22px">Schicken Sie uns Ihre Firma und – falls vorhanden – Ihre jetzige Website. Wir melden uns per E-Mail mit dem Link zu Ihrem Entwurf.</p>
+    <p class="lead auf" style="margin-top:22px">Schicken Sie uns Ihre Firma und – falls vorhanden – Ihre jetzige Website. Wir erstellen Ihnen gratis einen Entwurf Ihrer neuen Startseite. Gefällt er Ihnen nicht, kostet Sie das nichts.</p>
   </div>
   <div class="auf">{formular("start")}</div>
 </div></section>
 
-<section class="abschnitt vertrieb-hinweis"><div class="wrap"><div class="vt-band auf">
+<section class="vertrieb-hinweis" data-szene="anfrage"><div class="wrap"><div class="vt-band auf">
   <div><p class="vt-klein">Für Vertriebler</p><h2>Sie verkaufen gern? Verdienen Sie <em class="a">250 €</em> pro Kunde.</h2>
     <p>Freie Mitarbeit von zu Hause, Zeiten bestimmen Sie selbst. Kontakte und Entwürfe bekommen Sie von uns.</p></div>
-  <a class="btn zwei" href="vertrieb.html">Mehr erfahren {PFEIL}</a>
+  <a class="btn hell" href="vertrieb.html">Mehr erfahren {PFEIL}</a>
 </div></div></section>
-''')
+''', startseite=True)
 
 # =====================================================================  VERTRIEB
 BEW_ERF = ["Noch keine", "Etwas (z. B. Nebenjob, Kundenservice)", "Viel (Vertrieb, Telefonverkauf, Außendienst)"]
@@ -632,10 +655,12 @@ seite("datenschutz.html", "Datenschutzerklärung – crestra", "Wie crestra beim
 <p>{FIRMA["inhaber"]} (crestra), {FIRMA["strasse"]}, {FIRMA["plz"]} {FIRMA["ort"]}<br>E-Mail: <a href="mailto:{FIRMA["mail"]}">{FIRMA["mail"]}</a>, Telefon: {FIRMA["tel"]}</p>
 <h2>Hosting und Server-Protokolle</h2>
 <p>Diese Website wird bei GitHub Pages gehostet (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA). Beim Aufruf verarbeitet der Hoster technisch notwendige Daten wie IP-Adresse, Zeitpunkt, aufgerufene Seite und Browser-Kennung, um die Seite auszuliefern und vor Missbrauch zu schützen. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Dabei können Daten in die USA übermittelt werden; GitHub ist nach dem EU-US Data Privacy Framework zertifiziert. Mehr dazu in der <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
+<h2>Skripte von jsDelivr</h2>
+<p>Für Animationen laden wir die Bibliotheken GSAP und three.js über das Content-Delivery-Netzwerk jsDelivr. Dabei wird Ihre IP-Adresse an den Betreiber übermittelt, damit die Dateien ausgeliefert werden können. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
 <h2>Schriften</h2>
 <p>Die Schriften liegen auf unserem eigenen Server. Es werden keine Verbindungen zu Google Fonts aufgebaut.</p>
 <h2>Cookies und Tracking</h2>
-<p>Diese Website setzt keine Cookies und verwendet keine Analyse- oder Werbedienste.</p>
+<p>Diese Website setzt keine Cookies und verwendet keine Analyse- oder Werbedienste. Im Speicher Ihres Browsers (Session Storage) wird lediglich vermerkt, dass die Begrüßungsanimation schon gezeigt wurde; dieser Eintrag wird beim Schließen des Tabs gelöscht und ist für die gewünschte Darstellung erforderlich (§ 25 Abs. 2 TDDDG).</p>
 <h2>Anfrageformular</h2>
 <p>Wenn Sie das Formular nutzen, speichern wir Ihre Angaben (Firma, Name, E-Mail, Telefon, Website, Branche, gewünschter Stil, Nachricht) und die Seite, von der Sie die Anfrage geschickt haben, um Ihre Anfrage zu bearbeiten und Ihnen einen Entwurf zu schicken. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags). Die Daten werden in einer Datenbank des Anbieters Supabase gespeichert (Supabase Inc.; Serverstandort Irland, EU) und gelöscht, wenn sie für die Bearbeitung nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
 <h2>Bewerbungsformular</h2>
