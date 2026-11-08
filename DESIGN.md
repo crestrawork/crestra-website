@@ -54,3 +54,9 @@ Bewegung 6 (eine starke Szene, sonst ruhige Reveals – die Arbeiten sollen wirk
 - Logo als 3D-Objekt: chromfarbenes, schillerndes „c“ + leuchtender, blinkender Cursor-Strich; fliegt je Abschnitt an eine neue Stelle (`ZIELE`/`KLEIN` in raum.js), dreht sich mit Maus und Scrolltempo.
 - Punkt-Flug entfernt (weißer Blitz passte nicht in die dunkle Seite). Abschnitte transparent, Rechner/Formular als Glas.
 - Leistung: echte GPU (M4) ~570 fps ohne Bildratenbegrenzung → reichlich Luft. Headless-Tests laufen mit Software-Grafik (SwiftShader) und sind dafür nicht aussagekräftig – für Messungen `perf-gpu.js` (headed) nutzen.
+
+## 9.11.2026 – ruhige Fassung (Nils: „ein bisschen zu anstrengend“)
+- 3D-Partikelwelt (raum.js), WebGL-Welle (welle.js), Intro, Seitenvorhang, Lenis, GSAP, Magnet-Knöpfe, Spielwiese, gepinnte Fahrt, Branchen-Wand, Preis-Bühne: alles entfernt. Keine externen Skripte mehr.
+- Startseite hell, normales Scrollen, nur sanftes Einblenden (IntersectionObserver): Einstieg (Text + Eckdaten), 4 Schritte, Für jeden Betrieb, Rechner, Preis, Anfrage (dunkel), Hinweis „Für Vertriebler“.
+- Neu: vertrieb.html (Für Vertriebler, 250 €/Kunde, Bewerbungsformular → Supabase-Tabelle `bewerbungen`, SQL in supabase/bewerbungen.sql) + danke-bewerbung.html. Menüpunkt „Für Vertriebler“ statt „Ratgeber“ (Ratgeber im Fuß).
+- Formulare prüfen Felder beim Tippen statt beim Verlassen (vorher rutschte der Knopf beim Klick weg).

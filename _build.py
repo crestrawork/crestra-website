@@ -2,7 +2,7 @@
 """crestra – Seitengenerator. Aufruf: python3 _build.py  (schreibt alle .html-Dateien neu)"""
 import json, os
 
-V = "20261004g"
+V = "20261109a"
 BASE = "https://crestra.de/"
 HIER = os.path.dirname(os.path.abspath(__file__))
 
@@ -18,7 +18,7 @@ LOGO = ('<svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height=
 MARKE = '<a class="marke" href="index.html" aria-label="crestra – zur Startseite">crestra<span class="cursor" aria-hidden="true"></span></a>'
 
 NAV = [("leistung.html", "Leistung & Preis"), ("ablauf.html", "Ablauf"),
-       ("ueber-uns.html", "Über crestra"), ("faq.html", "Fragen"), ("ratgeber.html", "Ratgeber")]
+       ("ueber-uns.html", "Über crestra"), ("faq.html", "Fragen"), ("vertrieb.html", "Für Vertriebler")]
 
 ORG = {
     "@context": "https://schema.org", "@type": "ProfessionalService", "@id": BASE + "#crestra",
@@ -48,10 +48,7 @@ def kopf(titel, beschreibung, datei, aktiv=None, jsonld=None, noindex=False, sta
     ld = [ORG] + (jsonld or [])
     ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
     robots = '<meta name="robots" content="noindex">' if noindex else ""
-    importmap = '<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>\n' if startseite else ""
-    koerper = ' class="seite-dunkel"' if startseite else ""
-    raum = '<canvas class="raum" aria-hidden="true"></canvas>\n' if startseite else ""
-    intro = f'<div class="intro" aria-hidden="true"><span class="marke">crestra<span class="cursor"></span></span></div>' if startseite else ""
+    importmap = koerper = raum = intro = ""
     return f'''<!doctype html>
 <html lang="de">
 <head>
@@ -60,7 +57,7 @@ def kopf(titel, beschreibung, datei, aktiv=None, jsonld=None, noindex=False, sta
 <title>{titel}</title>
 <meta name="description" content="{beschreibung}">
 {robots}<link rel="canonical" href="{url}">
-<meta name="theme-color" content="#05080f"><meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#ffffff"><meta name="color-scheme" content="light">
 <meta property="og:type" content="website"><meta property="og:locale" content="de_DE"><meta property="og:site_name" content="crestra">
 <meta property="og:title" content="{titel}"><meta property="og:description" content="{beschreibung}">
 <meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -73,13 +70,11 @@ def kopf(titel, beschreibung, datei, aktiv=None, jsonld=None, noindex=False, sta
 </head>
 <body{koerper}>
 {raum}<a class="skip" href="#inhalt">Zum Inhalt springen</a>
-{intro}<div class="fortschritt" aria-hidden="true"></div>
-<div class="vorhang" aria-hidden="true"></div>
 <header class="kopf">
   <div class="wrap">
     {MARKE}
     <nav class="nav" aria-label="Hauptmenü">{nav_html(aktiv)}</nav>
-    <a class="btn" href="kontakt.html" data-magnet="aus">Gratis-Entwurf</a>
+    <a class="btn" href="kontakt.html">Gratis-Entwurf</a>
     <button class="burger" type="button" aria-expanded="false" aria-controls="menue" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -106,19 +101,13 @@ def fuss(cta=True, startseite=False):
         <p>{FIRMA["strasse"]}, {FIRMA["plz"]} {FIRMA["ort"]}<br><a href="mailto:{FIRMA["mail"]}">{FIRMA["mail"]}</a><br><a href="tel:{FIRMA["tel_link"]}">{FIRMA["tel"]}</a></p>
       </div>
       <div><h4>Angebot</h4><ul><li><a href="leistung.html">Leistung &amp; Preis</a></li><li><a href="ablauf.html">Ablauf</a></li><li><a href="faq.html">Fragen</a></li></ul></div>
-      <div><h4>Mehr</h4><ul><li><a href="ueber-uns.html">Über crestra</a></li><li><a href="ratgeber.html">Ratgeber</a></li><li><a href="kontakt.html">Kontakt</a></li><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li></ul></div>
+      <div><h4>Mehr</h4><ul><li><a href="ueber-uns.html">Über crestra</a></li><li><a href="ratgeber.html">Ratgeber</a></li><li><a href="vertrieb.html">Für Vertriebler</a></li><li><a href="kontakt.html">Kontakt</a></li><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li></ul></div>
     </div>
     <div class="unten"><span>© <span data-jahr>2026</span> crestra · {FIRMA["inhaber"]}</span><span>Ohne Cookies, ohne Tracking.</span></div>
   </div>
 </footer>
 {kc}
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js" defer></script>
-<script src="welle.js?v={V}" defer></script>
 <script src="main.js?v={V}" defer></script>
-{'<script type="module" src="raum.js?v=' + V + '"></script>' if startseite else ""}
-<script>addEventListener('pageshow',()=>{{const v=document.querySelector('.vorhang');if(v&&sessionStorage.getItem('crestra-intro')){{v.classList.add('rein');requestAnimationFrame(()=>requestAnimationFrame(()=>{{v.classList.remove('rein');v.classList.add('raus')}}))}}}})</script>
 </body>
 </html>
 '''
@@ -127,7 +116,7 @@ def fuss(cta=True, startseite=False):
 def seitenkopf(pfad, h1, lead):
     pf = ' <span aria-hidden="true">/</span> '.join(
         [f'<a href="{h}">{t}</a>' if h else f'<span aria-current="page">{t}</span>' for h, t in pfad])
-    return f'''<section class="seitenkopf" data-dunkel><canvas class="welle welle-leise" data-welle aria-hidden="true"></canvas><div class="wrap">
+    return f'''<section class="seitenkopf"><div class="wrap">
   <nav class="pfad" aria-label="Brotkrümel">{pf}</nav>
   <div class="reihe"><h1 class="wr">{h1}</h1><p class="lead auf">{lead}</p></div>
 </div></section>'''
@@ -206,94 +195,156 @@ def seite(datei, titel, beschreibung, inhalt, aktiv=None, jsonld=None, noindex=F
 seite("index.html", "crestra – Websites, die Ihnen Aufträge bringen",
       "Websites für Betriebe jeder Branche, von Hand gebaut. Gratis-Entwurf, dann 250 € einmalig und 59 € im Monat – Hosting, Domain und Pflege inklusive.",
       f'''
-<section class="held" data-dunkel data-szene="held">
-  <div class="held-licht" aria-hidden="true"></div>
-  <div class="wrap held-inhalt">
-    <h1 class="held-titel" data-buchstaben><span class="zl">Websites,</span> <span class="zl">die Ihnen</span> <span class="zl"><em class="a">Aufträge</em></span> <span class="zl">bringen.<span class="cursor" aria-hidden="true"></span></span></h1>
-    <div class="held-unten">
-      <p class="held-lead auf" data-v=".9"><strong>Lassen Sie sich gratis einen Entwurf Ihrer neuen Website erstellen.</strong> Unverbindlich, komplett per E-Mail – für Betriebe in ganz Deutschland.</p>
-      <div class="knoepfe auf" data-v="1.05"><a class="btn hell" href="#anfrage">Gratis-Entwurf anfordern {PFEIL}</a><a class="btn zwei" href="#weg">So funktioniert's</a></div>
-    </div>
+<section class="einstieg ruhig-held"><div class="wrap">
+  <h1 class="wr">Websites, die Ihnen <em class="a">Aufträge</em> bringen.</h1>
+  <div class="einstieg-text">
+    <p class="lead auf">Wir erstellen Ihnen gratis einen Entwurf Ihrer neuen Website. Gefällt er Ihnen, machen wir ihn fertig und kümmern uns um alles Weitere. Gefällt er Ihnen nicht, kostet Sie das nichts.</p>
+    <div class="knoepfe auf"><a class="btn" href="#anfrage">Gratis-Entwurf anfordern {PFEIL}</a><a class="btn zwei" href="#ablauf">So funktioniert's</a></div>
   </div>
-  <div class="held-fuss auf" data-v="1.2" aria-hidden="true"><span>250 € einmalig</span><span>59 € im Monat</span><span>Hosting, Domain, Pflege inklusive</span></div>
-</section>
-
-<section class="manifest" data-szene="manifest" aria-label="Worum es geht"><div class="wrap">
-  <p class="manifest-text" data-faerben>Die meisten Websites sehen aus wie alle anderen. Langsam, austauschbar, auf dem Handy kaum lesbar. Ihre Kunden entscheiden in Sekunden – und klicken weiter. <em class="a">Wir bauen Websites, bei denen sie bleiben.</em></p>
+  <dl class="eckdaten auf">
+    <div><dt>Einmalig</dt><dd>250 €</dd></div>
+    <div><dt>Im Monat</dt><dd>59 €</dd></div>
+    <div><dt>Inklusive</dt><dd>Hosting, Domain, Pflege</dd></div>
+  </dl>
 </div></section>
 
-<section class="spiel" data-szene="spiel" aria-label="Effekte zum Ausprobieren"><div class="wrap">
-  <div class="kopfzeile"><h2 class="wr">Fühlen Sie <em class="a">mal.</em></h2>
-    <p class="lead auf">Kleine Details, die Besucher länger bleiben lassen. Bewegen Sie die Maus darüber – oder tippen Sie auf dem Handy.</p></div>
-  <div class="spiel-raster">
-    <div class="kachel auf" data-scramble tabindex="0"><span class="kachel-name">Text, der lebendig wird <em>Tippen</em></span><div class="buehne-k"><p class="scramble-wort" data-wort="Aufmerksamkeit">Aufmerksamkeit</p></div></div>
-    <div class="kachel auf"><span class="kachel-name">Karten mit Tiefe <em>Karte ziehen</em></span><div class="buehne-k kachel-tief"><div class="tief-karte" data-kippen><div class="tief-glanz"></div><strong>59 €</strong><span>im Monat, alles drin</span></div></div></div>
-    <div class="kachel auf"><span class="kachel-name">Knöpfe, die anziehen <em>Daneben tippen</em></span><div class="buehne-k" data-magnet-feld><button type="button" class="magnet-knopf">Klick mich</button></div></div>
-    <div class="kachel kachel-dunkel auf"><span class="kachel-name">Licht, das folgt <em>Mit dem Finger malen</em></span><div class="buehne-k" data-spur><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-  </div>
-  <p class="auf spiel-fuss">Das alles – und mehr – kann Ihre Website auch. <a class="link" href="#anfrage">Gratis-Entwurf anfordern</a></p>
+<section class="abschnitt grau" id="ablauf"><div class="wrap">
+  <div class="kopfzeile"><h2 class="wr">In vier Schritten zur <em class="a">neuen</em> Website.</h2>
+    <p class="lead auf">Komplett per E-Mail, für Betriebe in ganz Deutschland. Sie müssen nichts vorbereiten und niemanden anrufen.</p></div>
+  <ol class="vier">
+    <li class="auf"><span class="nr">1</span><h3>Anfrage</h3><p>Sie schicken uns Ihre Firma und – falls vorhanden – Ihre jetzige Website.</p></li>
+    <li class="auf"><span class="nr">2</span><h3>Entwurf</h3><p>Wir bauen Ihre neue Startseite und schicken Ihnen einen Link. Gratis.</p></li>
+    <li class="auf"><span class="nr">3</span><h3>Entscheidung</h3><p>Gefällt sie Ihnen, machen wir sie fertig. Wenn nicht, ist nichts passiert.</p></li>
+    <li class="auf"><span class="nr">4</span><h3>Live</h3><p>Domain, Hosting und Pflege übernehmen wir. Änderungen schicken Sie per E-Mail.</p></li>
+  </ol>
 </div></section>
 
-<section class="marke-szene" data-szene="marke" aria-label="crestra"><p class="marke-unter auf">Websites, die bleiben.</p></section>
-
-<section class="weg" data-szene="weg" id="weg" aria-label="So bekommen Sie Ihren Gratis-Entwurf">
-  <div class="weg-klebt">
-    <p class="weg-kopf wrap">So bekommen Sie Ihren Gratis-Entwurf</p>
-    <div class="weg-spur">
-      <article class="weg-tafel"><h2 class="weg-wort">Anfrage</h2><p>Sie schicken uns Ihre Firma und – falls vorhanden – Ihre jetzige Website. Ein paar Angaben genügen, kein Anruf nötig.</p></article>
-      <article class="weg-tafel"><h2 class="weg-wort">Entwurf</h2><p>Wir bauen Ihre neue Startseite. Gratis. Sie bekommen einen Link und sehen sie sich in Ruhe an – am Bildschirm und auf dem Handy.</p></article>
-      <article class="weg-tafel"><h2 class="weg-wort">Entscheidung</h2><p>Gefällt sie Ihnen, machen wir sie fertig. Gefällt sie Ihnen nicht, ist nichts passiert. Kein Risiko, kein Kleingedrucktes.</p></article>
-      <article class="weg-tafel"><h2 class="weg-wort"><em class="a">Live.</em></h2><p>Domain, Hosting, Pflege – wir kümmern uns. Änderungen schicken Sie einfach per E-Mail.</p><a class="btn" href="#anfrage">Jetzt Entwurf anfordern {PFEIL}</a></article>
-    </div>
-    <div class="weg-leiste" aria-hidden="true"><i></i></div>
-  </div>
-</section>
-
-<section class="wand" data-dunkel data-szene="wand" id="fuer-wen"><div class="wrap">
-  <p class="wand-kopf auf">Für jeden Betrieb, der <em class="a">gefunden</em> werden will.</p>
-  <ul class="wand-liste">
+<section class="abschnitt" id="fuer-wen"><div class="wrap zwei-sp">
+  <div><h2 class="wr">Für jeden Betrieb, der <em class="a">gefunden</em> werden will.</h2>
+    <p class="lead auf" style="margin-top:20px">Ob Handwerk, Praxis oder Autohaus: Wir bauen die Seite so, wie Ihre Kunden suchen und entscheiden.</p>
+    <p class="auf"><a class="link" href="#anfrage">Ihre Branche ist nicht dabei? Fragen Sie trotzdem.</a></p></div>
+  <ul class="liste auf">
     <li><strong>Handwerk</strong><span>Anfragen mit Fotos vom Schaden, damit der erste Termin sitzt.</span></li>
     <li><strong>Gastronomie</strong><span>Speisekarte, Öffnungszeiten und Anruf mit einem Tipp.</span></li>
     <li><strong>Autohäuser</strong><span>Fahrzeugbestand aus mobile.de direkt auf der eigenen Seite.</span></li>
     <li><strong>Makler</strong><span>Angebote automatisch aus dem Immobilienportal.</span></li>
-    <li><strong>Solar &amp; Energie</strong><span>Leistungen verständlich erklärt, Anfrage mit den richtigen Angaben.</span></li>
-    <li><strong>Praxen</strong><span>Leistungen, Team und Sprechzeiten auf einen Blick.</span></li>
-    <li><strong>Handel</strong><span>Sortiment, Anfahrt und aktuelle Angebote.</span></li>
-    <li><strong>Dienstleister</strong><span>Vom Reinigungsdienst bis zur Kanzlei: klar sagen, was Sie tun.</span></li>
+    <li><strong>Praxen und Dienstleister</strong><span>Leistungen, Team und Erreichbarkeit auf einen Blick.</span></li>
   </ul>
-  <p class="wand-fuss auf">Ihre Branche ist nicht dabei? <a class="link" href="#anfrage">Fragen Sie trotzdem.</a></p>
 </div></section>
 
-<section class="abschnitt grau" data-szene="rechner" id="rechner"><div class="wrap">
+<section class="abschnitt grau" id="rechner"><div class="wrap">
   <div class="kopfzeile"><h2 class="wr">Rechnet sich <em class="a">das?</em></h2>
-    <p class="lead auf">Tragen Sie ein, was ein Auftrag oder ein Kunde bei Ihnen wert ist. Dann sehen Sie, wie wenig die Website leisten muss, um sich zu bezahlen.</p></div>
+    <p class="lead auf">Tragen Sie ein, was ein Auftrag bei Ihnen wert ist. Dann sehen Sie, wie wenig die Website leisten muss, um sich zu bezahlen.</p></div>
   <div class="auf">{rechner()}</div>
 </div></section>
 
-<section class="preisbuehne" data-dunkel data-szene="preis" id="preis"><div class="wrap">
-  <p class="preis-kopf auf">Ein Paket. <em class="a">Alles</em> drin.</p>
-  <div class="preis-riesig">
-    <div class="pr"><span class="pr-zahl" data-maske>250 €</span><span class="pr-text">einmalig</span></div>
-    <div class="pr"><span class="pr-zahl" data-maske>59 €</span><span class="pr-text">im Monat</span></div>
+<section class="abschnitt" id="preis"><div class="wrap preis">
+  <div>
+    <h2 class="wr">Ein Paket. <em class="a">Alles</em> drin.</h2>
+    <div class="preiszahl auf"><div><strong>250 €</strong><span>einmalig</span></div><div><strong>59 €</strong><span>im Monat</span></div></div>
+    <p class="auf" style="color:var(--ink-2)">Mindestlaufzeit 12 Monate, danach monatlich kündbar. Nur für Unternehmen. <a class="link" href="leistung.html">Alle Details</a></p>
   </div>
-  <ul class="preis-drin">
+  <ul class="drin">
     <li class="auf">{HAKEN}<div><strong>Ihre Website, von Hand gebaut</strong><span>Kein Baukasten. Aufbau und Gestaltung passend zu Ihrem Betrieb.</span></div></li>
     <li class="auf">{HAKEN}<div><strong>Hosting und Domain</strong><span>Adresse, Server und Sicherheitszertifikat – erledigt.</span></div></li>
     <li class="auf">{HAKEN}<div><strong>Laufende Pflege</strong><span>Texte, Preise, Öffnungszeiten, Fotos – Sie schicken, wir setzen ein.</span></div></li>
     <li class="auf">{HAKEN}<div><strong>Wartung und Fehlerbehebung</strong><span>Wenn etwas nicht läuft, beheben wir es.</span></div></li>
   </ul>
-  <p class="preis-klein auf">Mindestlaufzeit 12 Monate, danach monatlich kündbar. Nur für Unternehmen. <a class="link" href="leistung.html">Alle Details</a></p>
 </div></section>
 
-<section class="abschnitt night anfrage-held" data-dunkel data-szene="anfrage" id="anfrage">
-  <div class="wrap anfrage">
+<section class="abschnitt night" id="anfrage"><div class="wrap anfrage">
   <div>
     <h2 class="wr">Ihr Entwurf. <em class="a">Gratis</em> und unverbindlich.</h2>
-    <p class="lead auf" style="margin-top:22px">Schicken Sie uns Ihre Firma und – falls vorhanden – Ihre jetzige Website. Wir erstellen Ihnen gratis einen Entwurf Ihrer neuen Startseite. Gefällt er Ihnen nicht, kostet Sie das nichts.</p>
+    <p class="lead auf" style="margin-top:22px">Schicken Sie uns Ihre Firma und – falls vorhanden – Ihre jetzige Website. Wir melden uns per E-Mail mit dem Link zu Ihrem Entwurf.</p>
   </div>
   <div class="auf">{formular("start")}</div>
 </div></section>
-''', startseite=True)
+
+<section class="abschnitt vertrieb-hinweis"><div class="wrap"><div class="vt-band auf">
+  <div><p class="vt-klein">Für Vertriebler</p><h2>Sie verkaufen gern? Verdienen Sie <em class="a">250 €</em> pro Kunde.</h2>
+    <p>Freie Mitarbeit von zu Hause, Zeiten bestimmen Sie selbst. Kontakte und Entwürfe bekommen Sie von uns.</p></div>
+  <a class="btn zwei" href="vertrieb.html">Mehr erfahren {PFEIL}</a>
+</div></div></section>
+''')
+
+# =====================================================================  VERTRIEB
+BEW_ERF = ["Noch keine", "Etwas (z. B. Nebenjob, Kundenservice)", "Viel (Vertrieb, Telefonverkauf, Außendienst)"]
+BEW_STD = ["Unter 10 Stunden", "10–20 Stunden", "Mehr als 20 Stunden"]
+
+
+def bewerbung_formular():
+    erf = '<option value="">Bitte wählen</option>' + "".join(f'<option>{t}</option>' for t in BEW_ERF)
+    std = '<option value="">Bitte wählen</option>' + "".join(f'<option>{t}</option>' for t in BEW_STD)
+    return f'''<form class="formular" data-bewerbung novalidate>
+  <div class="f"><label for="b-name">Ihr Name</label><input id="b-name" name="name" autocomplete="name" required maxlength="200"><span class="fehler-t">Bitte Ihren Namen angeben.</span></div>
+  <div class="f"><label for="b-ort">Wohnort <small>(optional)</small></label><input id="b-ort" name="ort" autocomplete="address-level2" maxlength="200"></div>
+  <div class="f"><label for="b-email">E-Mail</label><input id="b-email" name="email" type="email" autocomplete="email" required maxlength="200"><span class="fehler-t">Bitte eine gültige E-Mail-Adresse angeben.</span></div>
+  <div class="f"><label for="b-tel">Telefon</label><input id="b-tel" name="telefon" type="tel" autocomplete="tel" required maxlength="60"><span class="fehler-t">Bitte eine Telefonnummer angeben.</span></div>
+  <div class="f"><label for="b-erf">Erfahrung im Verkauf</label><select id="b-erf" name="erfahrung">{erf}</select></div>
+  <div class="f"><label for="b-std">Zeit pro Woche</label><select id="b-std" name="stunden">{std}</select></div>
+  <div class="f ganz"><label for="b-text">Ein paar Sätze über Sie <small>(optional)</small></label><textarea id="b-text" name="nachricht" maxlength="4000" placeholder="Was haben Sie bisher gemacht? Wann können Sie anfangen?"></textarea></div>
+  <div class="honig" aria-hidden="true"><label for="b-hp">Bitte leer lassen</label><input id="b-hp" name="firmenwebsite2" tabindex="-1" autocomplete="off"></div>
+  <p class="zustimmung ganz">Mit dem Absenden werden Ihre Angaben gespeichert, um Ihre Bewerbung zu bearbeiten. Mehr dazu in der <a class="link" href="datenschutz.html">Datenschutzerklärung</a>.</p>
+  <div class="ganz"><button class="btn" type="submit">Bewerbung abschicken {PFEIL}</button></div>
+  <p class="status ganz" role="status" aria-live="polite"></p>
+</form>'''
+
+
+seite("vertrieb.html", "Für Vertriebler – freie Mitarbeit bei crestra",
+      "Verkaufen Sie Websites an Betriebe: freie Mitarbeit von zu Hause, 250 € Provision pro Kunde, Kontakte und Entwürfe von crestra. Jetzt bewerben.",
+      seitenkopf([("index.html", "Start"), (None, "Für Vertriebler")], "250 € für jeden <em class=\"a\">Kunden</em>, den Sie gewinnen.",
+                 "Sie telefonieren mit Betrieben, wir bauen die Websites. Freie Mitarbeit von zu Hause – wann und wie viel, entscheiden Sie.")
+      + f'''
+<section class="abschnitt"><div class="wrap zwei-sp">
+  <div><h2 class="wr">So läuft es <em class="a">ab.</em></h2>
+    <p class="lead auf" style="margin-top:20px">Sie müssen keine Websites bauen und nichts Technisches verstehen. Sie führen Gespräche – den Rest machen wir.</p></div>
+  <ol class="schritte schritte-klein">
+    <li class="auf"><h3>Kontakte bekommen</h3><div><p>In unserer App finden Sie Betriebe mit veralteter oder fehlender Website – nach Region und Branche sortiert. Niemand sonst ruft dieselben Betriebe an.</p></div></li>
+    <li class="auf"><h3>Gespräch führen</h3><div><p>Sie rufen an, stellen crestra vor und bieten einen kostenlosen Entwurf an. Ein Leitfaden hilft beim Einstieg.</p></div></li>
+    <li class="auf"><h3>Wir bauen den Entwurf</h3><div><p>Will der Betrieb einen Entwurf, geben Sie uns Bescheid. Wir bauen ihn und schicken Ihnen den Link für das zweite Gespräch.</p></div></li>
+    <li class="auf"><h3>Provision kassieren</h3><div><p>Unterschreibt der Kunde, bekommen Sie 250 € – sobald seine Einmalzahlung da ist und die Rücktrittsfrist vorbei ist.</p></div></li>
+  </ol>
+</div></section>
+
+<section class="abschnitt grau"><div class="wrap zwei-sp">
+  <div><h2 class="wr">Was Sie <em class="a">bekommen</em></h2></div>
+  <ul class="drin auf">
+    <li>{HAKEN}<div><strong>250 € pro Kunde</strong><span>Für jeden neuen Kunden, ohne Obergrenze.</span></div></li>
+    <li>{HAKEN}<div><strong>Ein Angebot, das leicht zu verkaufen ist</strong><span>Der Kunde sieht seine Website, bevor er sich entscheidet. 250 € einmalig und 59 € im Monat, alles inklusive.</span></div></li>
+    <li>{HAKEN}<div><strong>Kontakte und Werkzeuge</strong><span>Betriebe in der App, Gesprächsleitfaden, Unterlagen zum Angebot.</span></div></li>
+    <li>{HAKEN}<div><strong>Freie Zeiteinteilung</strong><span>Von zu Hause, neben dem Studium oder als Hauptberuf – Sie entscheiden, wann und wie viel.</span></div></li>
+    <li>{HAKEN}<div><strong>Ein fester Ansprechpartner</strong><span>Fragen klären Sie direkt mit Nils Cremerius, dem Inhaber.</span></div></li>
+  </ul>
+</div></section>
+
+<section class="abschnitt"><div class="wrap zwei-sp">
+  <div><h2 class="wr">Was Sie <em class="a">mitbringen</em></h2></div>
+  <ul class="liste auf">
+    <li><strong>Freude am Telefonieren</strong><span>Sie gehen gern auf Menschen zu und bleiben freundlich, auch wenn jemand Nein sagt.</span></li>
+    <li><strong>Gutes Deutsch</strong><span>Sie sprechen Inhaber von Betrieben an – klar und auf Augenhöhe.</span></li>
+    <li><strong>Selbstständiges Arbeiten</strong><span>Sie arbeiten als freier Handelsvertreter auf eigene Rechnung. Dafür brauchen Sie ein Gewerbe – wir erklären Ihnen, wie das geht.</span></li>
+    <li><strong>Handy oder Computer</strong><span>Mehr Ausrüstung brauchen Sie nicht.</span></li>
+  </ul>
+</div></section>
+
+<section class="abschnitt night" id="bewerben"><div class="wrap anfrage">
+  <div>
+    <h2 class="wr">Jetzt <em class="a">bewerben.</em></h2>
+    <p class="lead auf" style="margin-top:22px">Kein Anschreiben, kein Lebenslauf nötig. Wir melden uns innerhalb weniger Tage für ein kurzes Kennenlernen.</p>
+    <ul class="weiter auf">
+      <li><strong>Lieber per E-Mail?</strong><span><a class="link" href="mailto:{FIRMA["mail"]}?subject=Bewerbung%20Vertrieb">{FIRMA["mail"]}</a></span></li>
+    </ul>
+  </div>
+  <div class="auf">{bewerbung_formular()}</div>
+</div></section>
+''', cta=False)
+
+seite("danke-bewerbung.html", "Danke für Ihre Bewerbung – crestra", "Ihre Bewerbung ist angekommen. Wir melden uns in den nächsten Tagen.",
+      seitenkopf([("index.html", "Start"), ("vertrieb.html", "Für Vertriebler"), (None, "Danke")], "Danke, Ihre Bewerbung ist <em class=\"a\">angekommen.</em>",
+                 "Wir sehen uns Ihre Angaben an und melden uns in den nächsten Tagen per E-Mail oder Telefon.")
+      + '<section class="abschnitt"><div class="wrap"><div class="knoepfe"><a class="btn" href="index.html">Zur Startseite</a><a class="btn zwei" href="leistung.html">Unser Angebot ansehen</a></div></div></section>',
+      noindex=True, cta=False)
+
 
 # =====================================================================  LEISTUNG & PREIS
 seite("leistung.html", "Leistung & Preis – crestra",
@@ -430,7 +481,7 @@ def artikel(datei, inhalt_html):
           "datePublished": "2026-10-02", "dateModified": "2026-10-02", "author": {"@type": "Person", "name": FIRMA["inhaber"]},
           "publisher": {"@id": BASE + "#crestra"}, "mainEntityOfPage": BASE + datei}
     seite(datei, mt, b, seitenkopf([("index.html", "Start"), ("ratgeber.html", "Ratgeber"), (None, "Artikel")], t, b)
-          + f'<section class="abschnitt" style="padding-top:clamp(48px,6vw,80px)"><div class="wrap"><article class="prose">{inhalt_html}<p class="klein" style="margin-top:2.5em">Stand: Oktober 2026. Allgemeine Information, keine Rechtsberatung.</p></article></div></section>' + cta_band(),
+          + f'<section class="abschnitt" style="padding-top:clamp(48px,6vw,80px)"><div class="wrap"><article class="prose">{inhalt_html}<p class="klein" style="margin-top:2.5em">Stand: November 2026. Allgemeine Information, keine Rechtsberatung.</p></article></div></section>' + cta_band(),
           aktiv="ratgeber.html", jsonld=[ld])
 
 
@@ -581,19 +632,19 @@ seite("datenschutz.html", "Datenschutzerklärung – crestra", "Wie crestra beim
 <p>{FIRMA["inhaber"]} (crestra), {FIRMA["strasse"]}, {FIRMA["plz"]} {FIRMA["ort"]}<br>E-Mail: <a href="mailto:{FIRMA["mail"]}">{FIRMA["mail"]}</a>, Telefon: {FIRMA["tel"]}</p>
 <h2>Hosting und Server-Protokolle</h2>
 <p>Diese Website wird bei GitHub Pages gehostet (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA). Beim Aufruf verarbeitet der Hoster technisch notwendige Daten wie IP-Adresse, Zeitpunkt, aufgerufene Seite und Browser-Kennung, um die Seite auszuliefern und vor Missbrauch zu schützen. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Dabei können Daten in die USA übermittelt werden; GitHub ist nach dem EU-US Data Privacy Framework zertifiziert. Mehr dazu in der <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
-<h2>Skripte von jsDelivr</h2>
-<p>Für Animationen laden wir die Bibliotheken GSAP und Lenis über das Content-Delivery-Netzwerk jsDelivr. Dabei wird Ihre IP-Adresse an den Betreiber übermittelt, damit die Dateien ausgeliefert werden können. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
 <h2>Schriften</h2>
 <p>Die Schriften liegen auf unserem eigenen Server. Es werden keine Verbindungen zu Google Fonts aufgebaut.</p>
 <h2>Cookies und Tracking</h2>
-<p>Diese Website setzt keine Cookies und verwendet keine Analyse- oder Werbedienste. Im Speicher Ihres Browsers (Session Storage) wird lediglich vermerkt, dass die Begrüßungsanimation schon gezeigt wurde; dieser Eintrag wird beim Schließen des Tabs gelöscht und ist für die gewünschte Darstellung erforderlich (§ 25 Abs. 2 TDDDG).</p>
+<p>Diese Website setzt keine Cookies und verwendet keine Analyse- oder Werbedienste.</p>
 <h2>Anfrageformular</h2>
 <p>Wenn Sie das Formular nutzen, speichern wir Ihre Angaben (Firma, Name, E-Mail, Telefon, Website, Branche, gewünschter Stil, Nachricht) und die Seite, von der Sie die Anfrage geschickt haben, um Ihre Anfrage zu bearbeiten und Ihnen einen Entwurf zu schicken. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags). Die Daten werden in einer Datenbank des Anbieters Supabase gespeichert (Supabase Inc.; Serverstandort Irland, EU) und gelöscht, wenn sie für die Bearbeitung nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+<h2>Bewerbungsformular</h2>
+<p>Wenn Sie sich über das Formular auf der Seite „Für Vertriebler“ bewerben, speichern wir Ihre Angaben (Name, Wohnort, E-Mail, Telefon, Erfahrung, Zeit pro Woche, Nachricht), um Ihre Bewerbung zu prüfen und mit Ihnen Kontakt aufzunehmen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertragsverhältnisses). Die Daten liegen bei unserem Datenbank-Dienstleister Supabase (Server in der EU, Irland). Kommt keine Zusammenarbeit zustande, löschen wir Ihre Angaben spätestens sechs Monate nach der Absage.</p>
 <h2>E-Mail</h2>
 <p>Schreiben Sie uns per E-Mail, verarbeiten wir Ihre Nachricht zur Beantwortung (Art. 6 Abs. 1 lit. b bzw. f DSGVO). Unser E-Mail-Postfach wird bei der STRATO GmbH (Otto-Ostrowski-Straße 7, 10249 Berlin) mit Servern in Deutschland geführt.</p>
 <h2>Ihre Rechte</h2>
 <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch gegen Verarbeitungen auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wenden Sie sich dafür einfach an die oben genannte Adresse. Außerdem können Sie sich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen.</p>
-<p class="klein">Stand: Oktober 2026</p>
+<p class="klein">Stand: November 2026</p>
 </div></div></section>''', cta=False)
 
 # =====================================================================  SCHREIBEN
