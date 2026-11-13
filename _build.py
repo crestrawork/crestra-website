@@ -261,12 +261,18 @@ seite("index.html", "Website erstellen lassen in Stolberg & Aachen | crestra",
   <span id="bau-start" class="bau-anker"></span>
 </section>
 
-<section class="a-hell a-satz"><div class="wrap">
-  <p class="a-gross auf">Kein Baukasten. Keine Vorlage.<br><span class="grau">Jede Seite von Hand gebaut – für Ihren Betrieb.</span></p>
+<section class="a-hell a-satz kachel-auf"><div class="wrap">
+  <p class="a-gross" data-woerter>Kein Baukasten. Keine Vorlage. Jede Seite von Hand gebaut – für Ihren Betrieb.</p>
   <ul class="a-drei">
-    <li class="auf"><strong>Auf jedem Gerät</strong><span>Am Handy genauso stark wie am Bildschirm. Da, wo Ihre Kunden suchen.</span></li>
-    <li class="auf"><strong>Schnell geladen</strong><span>Keine schweren Baukästen. Die Seite steht, bevor jemand weiterklickt.</span></li>
-    <li class="auf"><strong>Wir kümmern uns</strong><span>Hosting, Domain, Pflege. Änderungen schicken Sie einfach per E-Mail.</span></li>
+    <li class="a-k">
+      <div class="vis vis-fluss" aria-hidden="true"><div class="fl-rahmen"><i class="fl-a"></i><i class="fl-b"></i><i class="fl-c"></i><i class="fl-d"></i></div></div>
+      <strong>Auf jedem Gerät</strong><span>Am Handy genauso stark wie am Bildschirm. Da, wo Ihre Kunden suchen.</span></li>
+    <li class="a-k">
+      <div class="vis vis-schnell" aria-hidden="true"><div class="sn-leiste"><i></i></div><div class="sn-seite"><i></i><i></i><i></i><i></i></div><b class="sn-fertig">Geladen.</b></div>
+      <strong>Schnell geladen</strong><span>Keine schweren Baukästen. Die Seite steht, bevor jemand weiterklickt.</span></li>
+    <li class="a-k">
+      <div class="vis vis-chat" aria-hidden="true"><p class="ch-sie">Neue Öffnungszeiten: Sa 9–13 Uhr</p><p class="ch-tippt"><i></i><i></i><i></i></p><p class="ch-wir">Erledigt – ist online. ✓</p></div>
+      <strong>Wir kümmern uns</strong><span>Hosting, Domain, Pflege. Änderungen schicken Sie einfach per E-Mail.</span></li>
   </ul>
 </div></section>
 
@@ -274,36 +280,36 @@ seite("index.html", "Website erstellen lassen in Stolberg & Aachen | crestra",
   <h2 class="a-h2 auf">Fühlen Sie <span class="verlauf">mal.</span></h2>
   <p class="a-unter auf">Kleine Details, die Besucher länger bleiben lassen. Bewegen Sie die Maus darüber – oder tippen Sie.</p>
   <div class="spiel-raster">
-    <div class="kachel auf" data-scramble tabindex="0"><span class="kachel-name">Text, der lebendig wird <em>Tippen</em></span><div class="buehne-k"><p class="scramble-wort" data-wort="Aufmerksamkeit">Aufmerksamkeit</p></div></div>
-    <div class="kachel auf"><span class="kachel-name">Karten mit Tiefe <em>Karte ziehen</em></span><div class="buehne-k kachel-tief"><div class="tief-karte" data-kippen><div class="tief-glanz"></div><strong>59 €</strong><span>im Monat, alles drin</span></div></div></div>
-    <div class="kachel auf"><span class="kachel-name">Knöpfe, die anziehen <em>Daneben tippen</em></span><div class="buehne-k" data-magnet-feld><button type="button" class="magnet-knopf">Klick mich</button></div></div>
-    <div class="kachel kachel-dunkel auf"><span class="kachel-name">Licht, das folgt <em>Mit dem Finger malen</em></span><div class="buehne-k" data-spur><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="kachel" data-scramble tabindex="0"><span class="kachel-name">Text, der lebendig wird <em>Tippen</em></span><div class="buehne-k"><p class="scramble-wort" data-wort="Aufmerksamkeit">Aufmerksamkeit</p></div></div>
+    <div class="kachel"><span class="kachel-name">Karten mit Tiefe <em>Karte ziehen</em></span><div class="buehne-k kachel-tief"><div class="tief-karte" data-kippen><div class="tief-glanz"></div><strong>59 €</strong><span>im Monat, alles drin</span></div></div></div>
+    <div class="kachel"><span class="kachel-name">Knöpfe, die anziehen <em>Daneben tippen</em></span><div class="buehne-k" data-magnet-feld><button type="button" class="magnet-knopf">Klick mich</button></div></div>
+    <div class="kachel kachel-dunkel"><span class="kachel-name">Licht, das folgt <em>Mit dem Finger malen</em></span><div class="buehne-k" data-spur><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
   </div>
 </div></section>
 
-<section class="a-preis" data-dunkel id="preis"><div class="wrap">
-  <h2 class="a-h2 auf">Ein Paket. <span class="verlauf">Alles drin.</span></h2>
+<section class="a-preis" data-dunkel id="preis"><div class="a-preis-buehne"><div class="wrap">
+  <h2 class="a-h2">Ein Paket. <span class="verlauf">Alles drin.</span></h2>
   <div class="a-zahlen">
-    <div><span class="a-zahl" data-maske>250 €</span><span class="a-zahl-t">einmalig</span></div>
-    <div><span class="a-zahl" data-maske>59 €</span><span class="a-zahl-t">im Monat</span></div>
+    <div><span class="a-zahl">250 €</span><span class="a-zahl-t">einmalig</span></div>
+    <div><span class="a-zahl">59 €</span><span class="a-zahl-t">im Monat</span></div>
   </div>
   <ul class="a-haken">
-    <li class="auf">{HAKEN}<span>Ihre Website, von Hand gebaut</span></li>
-    <li class="auf">{HAKEN}<span>Hosting, Domain und Sicherheitszertifikat</span></li>
-    <li class="auf">{HAKEN}<span>Laufende Pflege per E-Mail</span></li>
-    <li class="auf">{HAKEN}<span>Wartung und Fehlerbehebung</span></li>
+    <li >{HAKEN}<span>Ihre Website, von Hand gebaut</span></li>
+    <li >{HAKEN}<span>Hosting, Domain und Sicherheitszertifikat</span></li>
+    <li >{HAKEN}<span>Laufende Pflege per E-Mail</span></li>
+    <li >{HAKEN}<span>Wartung und Fehlerbehebung</span></li>
   </ul>
-  <p class="a-klein auf">Mindestlaufzeit 12 Monate, danach monatlich kündbar. Nur für Unternehmen. <a class="link" href="leistung.html">Alle Details</a></p>
-</div></section>
+  <p class="a-klein">Mindestlaufzeit 12 Monate, danach monatlich kündbar. Nur für Unternehmen. <a class="link" href="leistung.html">Alle Details</a></p>
+</div></div></section>
 
-<section class="a-hell a-weg" id="ablauf"><div class="wrap">
+<section class="a-hell a-weg kachel-auf" id="ablauf"><div class="wrap">
   <h2 class="a-h2 auf">Erst sehen. <span class="verlauf">Dann entscheiden.</span></h2>
-  <ol class="a-schritte">
-    <li class="auf"><span>01</span><strong>Anfrage</strong><p>Firma und jetzige Website schicken. Kein Anruf nötig.</p></li>
-    <li class="auf"><span>02</span><strong>Entwurf</strong><p>Wir bauen Ihre neue Startseite – gratis. Sie bekommen einen Link.</p></li>
-    <li class="auf"><span>03</span><strong>Entscheidung</strong><p>Gefällt sie Ihnen, machen wir sie fertig. Wenn nicht, ist nichts passiert.</p></li>
-    <li class="auf"><span>04</span><strong>Live</strong><p>Domain, Hosting, Pflege – wir kümmern uns.</p></li>
-  </ol>
+  <div class="a-schritte-rahmen"><div class="a-linie" aria-hidden="true"><i></i></div><ol class="a-schritte">
+    <li><span>01</span><strong>Anfrage</strong><p>Firma und jetzige Website schicken. Kein Anruf nötig.</p></li>
+    <li><span>02</span><strong>Entwurf</strong><p>Wir bauen Ihre neue Startseite – gratis. Sie bekommen einen Link.</p></li>
+    <li><span>03</span><strong>Entscheidung</strong><p>Gefällt sie Ihnen, machen wir sie fertig. Wenn nicht, ist nichts passiert.</p></li>
+    <li><span>04</span><strong>Live</strong><p>Domain, Hosting, Pflege – wir kümmern uns.</p></li>
+  </ol></div>
 </div></section>
 
 <section class="abschnitt night anfrage-held" data-dunkel id="anfrage">
@@ -312,7 +318,7 @@ seite("index.html", "Website erstellen lassen in Stolberg & Aachen | crestra",
     <h2 class="a-h2 links auf">Ihr Entwurf. <span class="verlauf">Gratis.</span></h2>
     <p class="lead auf" style="margin-top:22px">Schicken Sie uns Ihre Firma und – falls vorhanden – Ihre jetzige Website. Wir melden uns per E-Mail mit dem Link zu Ihrem Entwurf.</p>
   </div>
-  <div class="auf">{formular("start")}</div>
+  <div class="auf leuchtrand">{formular("start")}</div>
 </div></section>
 
 <section class="vertrieb-hinweis" data-dunkel><div class="wrap"><div class="vt-band auf">
@@ -320,6 +326,8 @@ seite("index.html", "Website erstellen lassen in Stolberg & Aachen | crestra",
     <p>Freie Mitarbeit von zu Hause, Zeiten bestimmen Sie selbst. Kontakte und Entwürfe bekommen Sie von uns.</p></div>
   <a class="btn hell" href="vertrieb.html">Mehr erfahren {PFEIL}</a>
 </div></div></section>
+
+<section class="a-marke" aria-label="crestra"><p class="a-riesig" aria-hidden="true"><span>c</span><span>r</span><span>e</span><span>s</span><span>t</span><span>r</span><span>a</span><i class="cur"></i></p></section>
 ''', startseite=True)
 
 # =====================================================================  VERTRIEB

@@ -114,3 +114,82 @@
 
   addEventListener('load', () => ScrollTrigger.refresh());
 })();
+
+/* ===== Jeder Abschnitt ein Moment ===== */
+(() => {
+  const d = document;
+  if (!d.body.classList.contains('seite-apple')) return;
+  const $ = (s, c = d) => c.querySelector(s), $$ = (s, c = d) => [...c.querySelectorAll(s)];
+  const ruhig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Live-Kacheln laufen nur, solange sie sichtbar sind */
+  const vis = $$('.vis');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('an', e.isIntersecting)), { threshold: .25 });
+    vis.forEach(v => io.observe(v));
+  } else vis.forEach(v => v.classList.add('an'));
+
+  /* Satz in Wörter zerlegen */
+  const satz = $('[data-woerter]'), woerter = [];
+  if (satz) {
+    satz.setAttribute('aria-label', satz.textContent);
+    satz.innerHTML = satz.textContent.split(/\s+/).map(w => `<span class="w" aria-hidden="true">${w}</span>`).join(' ');
+    woerter.push(...$$('.w', satz));
+  }
+
+  if (!window.gsap || !window.ScrollTrigger || ruhig) {
+    woerter.forEach(w => { w.style.opacity = 1; });
+    $$('.a-schritte li').forEach(li => li.classList.add('an'));
+    $$('.a-linie i').forEach(i => { i.style.transform = 'scaleX(1)'; });
+    return;
+  }
+
+  // Helle Abschnitte fahren wie Kacheln auf
+  $$('.kachel-auf').forEach(el => gsap.fromTo(el, { scale: .9, borderRadius: 48 }, { scale: 1, borderRadius: 0, ease: 'none',
+    scrollTrigger: { trigger: el, start: 'top bottom', end: 'top 20%', scrub: .4 } }));
+
+  // Satz leuchtet Wort für Wort
+  if (woerter.length) gsap.to(woerter, { opacity: 1, ease: 'none', stagger: .1,
+    scrollTrigger: { trigger: satz, start: 'top 82%', end: 'bottom 40%', scrub: .5 } });
+
+  // Drei Kacheln steigen nacheinander auf
+  const kk = $$('.a-k');
+  if (kk.length) gsap.from(kk, { y: 80, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: .12, scrollTrigger: { trigger: kk[0], start: 'top 88%' } });
+
+  // Spielwiese: Kacheln kippen herein
+  const kacheln = $$('.a-spiel .kachel');
+  if (kacheln.length) gsap.from(kacheln, { rotationX: -38, y: 90, opacity: 0, transformOrigin: '50% 100%', duration: 1.2, ease: 'expo.out', stagger: .1,
+    scrollTrigger: { trigger: $('.a-spiel .spiel-raster'), start: 'top 85%' } });
+
+  // Preis: kurze eigene Szene
+  const preis = $('.a-preis');
+  if (preis) {
+    const zahlen = $$('.a-zahlen > div', preis);
+    const tl = gsap.timeline({ scrollTrigger: { trigger: preis, start: 'top top', end: () => '+=' + innerHeight * 1.1, pin: $('.a-preis-buehne', preis), scrub: .6, anticipatePin: 1, invalidateOnRefresh: true } });
+    tl.from($('.a-h2', preis), { y: 50, opacity: 0, duration: .5 }, 0)
+      .from($('.a-zahl', zahlen[0]), { scale: 2.4, opacity: 0, duration: .8, ease: 'power3.out' }, .3)
+      .from($('.a-zahl-t', zahlen[0]), { opacity: 0, y: 14, duration: .3 }, .9)
+      .from($('.a-zahl', zahlen[1]), { scale: 2.4, opacity: 0, duration: .8, ease: 'power3.out' }, 1.0)
+      .from($('.a-zahl-t', zahlen[1]), { opacity: 0, y: 14, duration: .3 }, 1.6)
+      .from($$('.a-haken li', preis), { y: 40, opacity: 0, stagger: .1, duration: .4, ease: 'back.out(1.6)' }, 1.7)
+      .from($('.a-klein', preis), { opacity: 0, duration: .3 }, 2.3)
+      .to({}, { duration: .4 }, 2.6);
+  }
+
+  // Schritte: Leuchtlinie zieht durch
+  const rahmen = $('.a-schritte-rahmen');
+  if (rahmen) {
+    const li = $$('.a-schritte li', rahmen), linie = $('.a-linie i', rahmen);
+    gsap.from(li, { y: 70, opacity: 0, duration: 1, ease: 'expo.out', stagger: .1, scrollTrigger: { trigger: rahmen, start: 'top 88%' } });
+    gsap.to(linie, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: rahmen, start: 'top 75%', end: 'bottom 45%', scrub: .5,
+      onUpdate: st => li.forEach((l, i) => l.classList.toggle('an', st.progress > i / li.length + .06)) } });
+  }
+
+  // Riesen-Schriftzug baut sich auf
+  const riesig = $$('.a-riesig span');
+  if (riesig.length) gsap.from(riesig, { yPercent: 110, opacity: 0, ease: 'power2.out', stagger: .08,
+    scrollTrigger: { trigger: $('.a-marke'), start: 'top 95%', end: 'bottom bottom', scrub: .6 } });
+
+  ScrollTrigger.sort();
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();

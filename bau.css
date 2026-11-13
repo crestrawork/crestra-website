@@ -2,7 +2,7 @@
 .seite-apple{background:#000;color:#f5f5f7;--a-grau:#86868b;--a-hell:#f5f5f7;--a-tinte:#1d1d1f;
   --verlauf:linear-gradient(90deg,#9ef0f7 0%,#4fc6d9 40%,#2b8fd6 100%)}
 .seite-apple .verlauf{background:var(--verlauf);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:.08em}
-.seite-apple .kopf{background:rgba(0,0,0,.72)!important;backdrop-filter:saturate(1.6) blur(20px)!important;-webkit-backdrop-filter:saturate(1.6) blur(20px)!important;border-bottom:1px solid rgba(255,255,255,.08)!important}
+.seite-apple .kopf{background:rgba(0,0,0,.86)!important;backdrop-filter:saturate(1.6) blur(20px)!important;-webkit-backdrop-filter:saturate(1.6) blur(20px)!important;border-bottom:1px solid rgba(255,255,255,.08)!important}
 .seite-apple .fuss{background:#000}
 
 /* Knöpfe im Apple-Stil */
@@ -183,3 +183,90 @@
 .in-bau .klebe-cta{transform:translateY(140%)!important}
 .seite-apple .btn{border-radius:999px}
 .seite-apple .formular input,.seite-apple .formular select,.seite-apple .formular textarea,.seite-apple .chip span{background:#161617;border-color:#2c2c2e}
+
+/* =================== Jeder Abschnitt ein Moment (13.11.2026) =================== */
+/* Helle Kacheln fahren auf */
+.kachel-auf{border-radius:0;transform-origin:50% 0;will-change:transform}
+
+/* Satz Wort für Wort */
+.a-gross[data-woerter]{max-width:22ch}
+.a-gross .w{color:#1d1d1f;opacity:.16}
+
+/* Drei Live-Kacheln */
+.a-drei{gap:clamp(16px,2vw,24px)}
+.a-k{background:#fff;border-radius:24px;padding:22px 24px 28px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.vis{position:relative;height:170px;margin:0 0 22px;border-radius:16px;background:#f5f5f7;overflow:hidden}
+.vis *{animation-play-state:paused!important}
+.vis.an *{animation-play-state:running!important}
+/* Fluss: Rahmen wird schmal, Blöcke ordnen sich um */
+.fl-rahmen{position:absolute;left:50%;top:18px;bottom:18px;width:86%;transform:translateX(-50%);border:1.5px solid #c7c7cc;border-radius:12px;background:#fff;animation:flRahmen 4.8s var(--ease) infinite}
+.fl-rahmen i{position:absolute;border-radius:6px;background:#d2e9ef;animation:4.8s var(--ease) infinite}
+.fl-a{left:8%;top:12%;width:84%;height:16%;background:#0a7c9c!important;opacity:.85;animation-name:flA!important}
+.fl-b{left:8%;top:38%;width:26%;height:48%;animation-name:flB!important}
+.fl-c{left:37%;top:38%;width:26%;height:48%;animation-name:flC!important}
+.fl-d{left:66%;top:38%;width:26%;height:48%;animation-name:flD!important}
+@keyframes flRahmen{0%,15%{width:86%}45%,65%{width:34%}95%,100%{width:86%}}
+@keyframes flA{0%,100%{}}
+@keyframes flB{0%,15%{left:8%;top:38%;width:26%;height:48%}45%,65%{left:8%;top:34%;width:84%;height:16%}95%,100%{left:8%;top:38%;width:26%;height:48%}}
+@keyframes flC{0%,15%{left:37%;top:38%;width:26%;height:48%}45%,65%{left:8%;top:54%;width:84%;height:16%}95%,100%{left:37%;top:38%;width:26%;height:48%}}
+@keyframes flD{0%,15%{left:66%;top:38%;width:26%;height:48%}45%,65%{left:8%;top:74%;width:84%;height:16%}95%,100%{left:66%;top:38%;width:26%;height:48%}}
+/* Schnell: Leiste rast, Seite steht */
+.sn-leiste{position:absolute;left:18px;right:18px;top:18px;height:4px;border-radius:4px;background:#e5e5ea;overflow:hidden}
+.sn-leiste i{position:absolute;inset:0;background:linear-gradient(90deg,#4fc6d9,#2b8fd6);transform-origin:0 50%;animation:snLeiste 3.2s cubic-bezier(.2,.9,.2,1) infinite}
+.sn-seite{position:absolute;left:18px;right:18px;top:38px;bottom:18px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;gap:8px}
+.sn-seite i{border-radius:6px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.06);opacity:0;animation:snBlock 3.2s ease infinite}
+.sn-seite i:first-child{grid-column:1/-1;height:26px;background:#0a7c9c;opacity:0}
+.sn-seite i:nth-child(2){animation-delay:.06s}.sn-seite i:nth-child(3){animation-delay:.12s}.sn-seite i:nth-child(4){grid-column:1/-1;height:22px;animation-delay:.18s}
+.sn-fertig{position:absolute;right:20px;bottom:16px;font-size:13px;color:#28a745;font-weight:700;opacity:0;animation:snFertig 3.2s ease infinite}
+@keyframes snLeiste{0%{transform:scaleX(0)}22%,100%{transform:scaleX(1)}}
+@keyframes snBlock{0%,20%{opacity:0;transform:translateY(8px)}30%,90%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes snFertig{0%,32%{opacity:0}40%,90%{opacity:1}100%{opacity:0}}
+/* Chat */
+.vis-chat{padding:18px;display:grid;align-content:start;gap:10px}
+.vis-chat p{margin:0;max-width:82%;padding:9px 13px;border-radius:16px;font-size:13.5px;line-height:1.35;opacity:0}
+.ch-sie{justify-self:end;background:#0a84ff;color:#fff;border-bottom-right-radius:4px;animation:chSie 6s ease infinite}
+.ch-tippt{grid-row:2;grid-column:1;justify-self:start;width:max-content;background:#e5e5ea;display:flex;gap:4px;padding:12px 14px!important;animation:chTippt 6s ease infinite}
+.ch-tippt i{width:6px;height:6px;border-radius:50%;background:#8e8e93;animation:punkt 1s ease infinite}
+.ch-tippt i:nth-child(2){animation-delay:.15s}.ch-tippt i:nth-child(3){animation-delay:.3s}
+.ch-wir{grid-row:2;grid-column:1;justify-self:start;background:#e5e5ea;color:#1d1d1f;border-bottom-left-radius:4px;animation:chWir 6s ease infinite}
+@keyframes chSie{0%,5%{opacity:0;transform:translateY(10px)}12%,92%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes chTippt{0%,18%{opacity:0}24%,44%{opacity:1}50%,100%{opacity:0}}
+@keyframes chWir{0%,48%{opacity:0;transform:translateY(10px)}56%,92%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes punkt{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-3px);opacity:1}}
+
+/* Spielwiese: Kacheln kippen herein */
+.seite-apple .spiel-raster{perspective:1400px}
+
+/* Preis-Szene */
+.a-preis{padding:0}
+.a-preis-buehne{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--head) + 20px) 0 40px}
+.a-preis-buehne .wrap{width:100%}
+.a-zahlen>div{will-change:transform}
+
+/* Schritte mit Leuchtlinie */
+.a-schritte-rahmen{position:relative}
+.a-linie{position:absolute;left:0;right:0;top:-26px;height:3px;border-radius:3px;background:#e0e0e5}
+.a-linie i{position:absolute;inset:0;border-radius:3px;background:linear-gradient(90deg,#9ef0f7,#4fc6d9,#2b8fd6);transform-origin:0 50%;transform:scaleX(0);box-shadow:0 0 18px rgba(79,198,217,.7)}
+.a-schritte li{transition:box-shadow .5s var(--ease),transform .5s var(--ease)}
+.a-schritte li.an{box-shadow:0 18px 50px -20px rgba(43,143,214,.45),0 0 0 2px rgba(79,198,217,.55);transform:translateY(-6px)}
+.a-schritte li.an span{color:#2b8fd6}
+@media (max-width:900px){.a-linie{display:none}}
+
+/* Formular mit umlaufendem Leuchtrand */
+@property --winkel{syntax:'<angle>';initial-value:0deg;inherits:false}
+.leuchtrand{position:relative;border-radius:24px;padding:clamp(18px,2.5vw,30px);background:#0d0d0e;isolation:isolate}
+.leuchtrand::before{content:"";position:absolute;inset:-1.5px;border-radius:25px;z-index:-1;background:conic-gradient(from var(--winkel),transparent 0 60%,#4fc6d9 75%,#2b8fd6 82%,transparent 92%);animation:dreh 6s linear infinite}
+.leuchtrand::after{content:"";position:absolute;inset:0;border-radius:24px;z-index:-1;background:#0d0d0e}
+@keyframes dreh{to{--winkel:360deg}}
+
+/* Riesen-Schriftzug */
+.a-marke{background:#000;padding:clamp(40px,6vw,80px) 0 0;overflow:hidden;text-align:center}
+.a-riesig{margin:0;font-size:clamp(90px,27vw,420px);line-height:.8;font-weight:800;letter-spacing:-.07em;white-space:nowrap;display:inline-flex;align-items:flex-end}
+.a-riesig span{display:inline-block;background:linear-gradient(180deg,#f5f5f7 20%,#3a3a3c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:.06em}
+.a-riesig .cur{display:inline-block;width:.07em;height:.62em;margin:0 0 .12em .05em;border-radius:.01em;background:#4fc6d9;box-shadow:0 0 40px rgba(79,198,217,.8);animation:cursor 1.1s steps(1) infinite}
+
+@media (prefers-reduced-motion:reduce){
+  .vis *,.leuchtrand::before,.a-riesig .cur{animation:none!important}
+  .sn-seite i,.sn-fertig,.vis-chat p:not(.ch-tippt),.ch-sie,.ch-wir{opacity:1!important}
+  .a-gross .w{opacity:1}
+}
