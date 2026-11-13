@@ -163,7 +163,8 @@
 
   // Preis: kurze eigene Szene
   const preis = $('.a-preis');
-  if (preis) {
+  // Nur pinnen, wenn die Szene ganz auf den Bildschirm passt (Handy: sonst Überschrift unter der Kopfzeile, Haken unsichtbar).
+  if (preis && $('.a-preis-buehne', preis).scrollHeight <= innerHeight) {
     const zahlen = $$('.a-zahlen > div', preis);
     const tl = gsap.timeline({ scrollTrigger: { trigger: preis, start: 'top top', end: () => '+=' + innerHeight * 1.1, pin: $('.a-preis-buehne', preis), scrub: .6, anticipatePin: 1, invalidateOnRefresh: true } });
     tl.from($('.a-h2', preis), { y: 50, opacity: 0, duration: .5 }, 0)

@@ -15,7 +15,7 @@
   --head:72px;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:#05080f}
+html{overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%;background:#05080f}
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 "Hanken",system-ui,-apple-system,sans-serif;font-optical-sizing:auto;-webkit-font-smoothing:antialiased;overflow-x:clip}

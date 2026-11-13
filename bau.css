@@ -239,7 +239,7 @@
 
 /* Preis-Szene */
 .a-preis{padding:0}
-.a-preis-buehne{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--head) + 20px) 0 40px}
+.a-preis-buehne{overflow:hidden;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--head) + 20px) 0 40px}
 .a-preis-buehne .wrap{width:100%}
 .a-zahlen>div{will-change:transform}
 

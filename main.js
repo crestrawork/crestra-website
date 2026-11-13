@@ -7,7 +7,8 @@
 
   /* ---------- Lenis + GSAP ---------- */
   let lenis = null;
-  if (hatGsap) gsap.registerPlugin(ScrollTrigger);
+  // Handy: Ein-/Ausblenden der Adressleiste löst sonst Neuberechnung aus, gepinnte Szenen springen.
+  if (hatGsap) { gsap.registerPlugin(ScrollTrigger); ScrollTrigger.config({ ignoreMobileResize: true }); }
   /* Kein Lenis mehr (9.11.2026: Nils fand das Nachgleiten zäh) – normales Scrollen */
   const nachLaden = () => hatGsap && ScrollTrigger.refresh();
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(nachLaden);
