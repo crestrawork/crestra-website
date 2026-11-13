@@ -22,7 +22,7 @@
     if (kopf) kopf.classList.toggle('linie', y > 8);
     if (kopf) {
       const yk = 36;
-      kopf.classList.toggle('dunkel', d.body.classList.contains('seite-dunkel') || dunkle.some(e => { if (!e.hasAttribute('data-dunkel') && !e.classList.contains('fuss')) return false; const r = e.getBoundingClientRect(); return r.top <= yk && r.bottom > yk; }));
+      kopf.classList.toggle('dunkel', (d.body.classList.contains('seite-dunkel') || d.body.classList.contains('seite-apple')) || dunkle.some(e => { if (!e.hasAttribute('data-dunkel') && !e.classList.contains('fuss')) return false; const r = e.getBoundingClientRect(); return r.top <= yk && r.bottom > yk; }));
     }
     if (fort) fort.style.transform = `scaleX(${h > 0 ? Math.min(1, y / h) : 0})`;
     if (kc) {

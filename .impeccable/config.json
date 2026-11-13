@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "bau.css"
+        ],
+        "createdAt": "2026-11-13T14:58:08.402Z",
+        "reason": "Claude: Nils wählte apple.com-Produktseiten als Vorbild (13.11.2026); Verlaufsschrift ist Kernmerkmal dieses Stils"
+      }
+    ]
+  }
+}
