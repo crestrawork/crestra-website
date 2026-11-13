@@ -190,6 +190,52 @@
   if (riesig.length) gsap.from(riesig, { yPercent: 110, opacity: 0, ease: 'power2.out', stagger: .08,
     scrollTrigger: { trigger: $('.a-marke'), start: 'top 95%', end: 'bottom bottom', scrub: .6 } });
 
+  /* ---------- Unterseiten ---------- */
+  // Kopf: Auftritt beim Laden, beim Scrollen gleitet er weg
+  const kopf = $('.a-kopf');
+  if (kopf) {
+    gsap.from([$('.pfad', kopf), $('.a-kopf-titel', kopf), $('.a-kopf-lead', kopf)], { y: 50, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: .1, delay: .05 });
+    gsap.to($('.a-kopf-inhalt', kopf), { y: -90, opacity: .15, ease: 'none', scrollTrigger: { trigger: kopf, start: 'top top', end: 'bottom top', scrub: .3 } });
+  }
+
+  // Erster heller Abschnitt nach einem dunklen fährt wie eine Kachel auf
+  const dunkel = el => el && (el.hasAttribute('data-dunkel') || el.classList.contains('night') || el.classList.contains('a-kopf'));
+  $$('main > section.abschnitt:not(.night)').forEach(sec => {
+    if (sec.classList.contains('kachel-auf') || !dunkel(sec.previousElementSibling)) return;
+    gsap.fromTo(sec, { scale: .92, borderRadius: 44 }, { scale: 1, borderRadius: 0, ease: 'none', transformOrigin: '50% 0',
+      scrollTrigger: { trigger: sec, start: 'top bottom', end: 'top 25%', scrub: .4 } });
+  });
+
+  // Große Zahlen schießen ins Bild
+  $$('.preiszahl[data-gross] > div').forEach((z, i) => gsap.from(z, { scale: 1.9, opacity: 0, duration: 1.2, delay: i * .15, ease: 'expo.out',
+    scrollTrigger: { trigger: z, start: 'top 85%' } }));
+  $$('.a-zahl-moment').forEach(m => gsap.fromTo($('.a-zahl', m), { scale: .45, opacity: 0 }, { scale: 1, opacity: 1, ease: 'power2.out',
+    scrollTrigger: { trigger: m, start: 'top 90%', end: 'center 55%', scrub: .5 } }));
+
+  // Senkrechte Leuchtlinie durch die Schritte
+  $$('ol.schritte').forEach(ol => {
+    const linie = d.createElement('div'); linie.className = 'v-linie'; linie.setAttribute('aria-hidden', 'true'); linie.innerHTML = '<i></i>';
+    ol.prepend(linie);
+    gsap.to($('i', linie), { scaleY: 1, ease: 'none', scrollTrigger: { trigger: ol, start: 'top 62%', end: 'bottom 62%', scrub: .4 } });
+    $$('li', ol).forEach(li => ScrollTrigger.create({ trigger: li, start: 'top 62%', onEnter: () => li.classList.add('an'), onLeaveBack: () => li.classList.remove('an') }));
+  });
+
+  // Listen-Karten steigen nacheinander auf
+  $$('.liste, .drin').forEach(ul => {
+    const lis = $$(':scope > li', ul).filter(li => !li.classList.contains('auf'));
+    if (lis.length) gsap.from(lis, { y: 40, opacity: 0, duration: .9, ease: 'expo.out', stagger: .08, scrollTrigger: { trigger: ul, start: 'top 86%' } });
+  });
+
+  // Fragen klappen weich auf
+  $$('.faq details').forEach(det => {
+    const sum = $('summary', det), ant = $('.antwort', det);
+    sum.addEventListener('click', e => {
+      e.preventDefault();
+      if (det.open) gsap.to(ant, { height: 0, opacity: 0, duration: .35, ease: 'power2.inOut', onComplete: () => { det.open = false; gsap.set(ant, { clearProps: 'height,opacity' }); } });
+      else { det.open = true; gsap.from(ant, { height: 0, opacity: 0, duration: .45, ease: 'power3.out', clearProps: 'height,opacity' }); }
+    });
+  });
+
   ScrollTrigger.sort();
   addEventListener('load', () => ScrollTrigger.refresh());
 })();

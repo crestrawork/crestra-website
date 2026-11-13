@@ -270,3 +270,106 @@
   .sn-seite i,.sn-fertig,.vis-chat p:not(.ch-tippt),.ch-sie,.ch-wir{opacity:1!important}
   .a-gross .w{opacity:1}
 }
+
+/* =================== Unterseiten im Apple-Look (13.11.2026) =================== */
+.seite-apple em.a{font-family:inherit;font-style:normal;font-weight:inherit;letter-spacing:inherit;background:var(--verlauf);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.seite-apple main{background:#000}
+.seite-apple .abschnitt{background:#fff;color:#1d1d1f;padding:clamp(80px,10vw,140px) 0}
+.seite-apple .abschnitt.grau{background:#f5f5f7}
+.seite-apple .abschnitt.night{background:#000;color:#f5f5f7}
+.seite-apple .abschnitt h2.wr{font-size:clamp(34px,4.4vw,60px);letter-spacing:-.045em;font-weight:720}
+.seite-apple .night h2.wr{color:#f5f5f7}
+.seite-apple .lead{color:#6e6e73}
+.seite-apple .night .lead{color:var(--a-grau)}
+
+/* Kopf */
+.a-kopf{position:relative;overflow:hidden;background:#000;color:#f5f5f7;text-align:center;padding:calc(var(--head) + clamp(70px,12vh,140px)) 0 clamp(80px,12vh,140px)}
+.a-glut{position:absolute;inset:0;pointer-events:none}
+.a-glut i{position:absolute;width:60vw;height:60vw;max-width:900px;max-height:900px;border-radius:50%;filter:blur(90px);opacity:.38;will-change:transform}
+.a-glut i:nth-child(1){left:-12%;top:-30%;background:radial-gradient(closest-side,#2aa6d6,transparent);animation:glut1 18s ease-in-out infinite alternate}
+.a-glut i:nth-child(2){right:-14%;bottom:-45%;background:radial-gradient(closest-side,#4fc6d9,transparent);opacity:.28;animation:glut2 22s ease-in-out infinite alternate}
+@keyframes glut1{to{transform:translate(22vw,14vh) scale(1.15)}}
+@keyframes glut2{to{transform:translate(-20vw,-12vh) scale(.9)}}
+.a-kopf-inhalt{position:relative;z-index:1;will-change:transform}
+.a-kopf .pfad{font-size:14px;color:var(--a-grau);margin-bottom:26px}
+.a-kopf .pfad a{text-decoration:none}.a-kopf .pfad a:hover{color:#f5f5f7}
+.a-kopf-titel{font-size:clamp(40px,7.2vw,108px);line-height:1;letter-spacing:-.052em;font-weight:740;margin:0 auto 26px;max-width:18ch;color:#f5f5f7;hyphens:manual;-webkit-hyphens:manual;overflow-wrap:normal}
+.a-kopf-titel .wk{display:inline-block}
+.a-kopf-lead{font-size:clamp(18px,1.8vw,23px);color:var(--a-grau);max-width:34em;margin:0 auto;line-height:1.5}
+
+/* Listen als Karten */
+.seite-apple .liste{border:0;display:grid;gap:12px}
+.seite-apple .liste li{border:0;background:#f5f5f7;border-radius:20px;padding:22px 24px}
+.seite-apple .grau .liste li{background:#fff}
+.seite-apple .night .liste li{background:#161617}
+.seite-apple .liste li strong{font-size:clamp(18px,1.5vw,21px);letter-spacing:-.02em;margin-bottom:4px}
+.seite-apple .liste li span{color:#6e6e73}
+.seite-apple .night .liste li strong{color:#f5f5f7}
+.seite-apple .night .liste li span{color:var(--a-grau)}
+.seite-apple .drin{border:0;display:grid;gap:12px}
+.seite-apple .drin li{border:0;background:#f5f5f7;border-radius:20px;padding:20px 22px;grid-template-columns:30px 1fr}
+.seite-apple .grau .drin li{background:#fff}
+.seite-apple .drin li svg{color:#2b8fd6;width:22px;height:22px}
+.seite-apple .drin li span{color:#6e6e73}
+
+/* Preiszahlen auf Leistung */
+.seite-apple .preiszahl strong{font-size:clamp(64px,9vw,132px);letter-spacing:-.06em;background:var(--verlauf);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;display:inline-block;padding-bottom:.05em}
+.seite-apple .preiszahl div{will-change:transform}
+
+/* Ablauf: senkrechte Leuchtlinie */
+.seite-apple .schritte{position:relative;padding-left:clamp(36px,5vw,64px)}
+.seite-apple .schritte li{position:relative;border-top:0;padding:clamp(22px,3vw,36px) 0}
+.seite-apple .schritte li::before{content:"";position:absolute;left:calc(clamp(36px,5vw,64px) * -1 + 1px);top:calc(clamp(22px,3vw,36px) + .35em);width:14px;height:14px;border-radius:50%;background:#d2d2d7;transition:background .4s,box-shadow .4s,transform .4s var(--ease)}
+.seite-apple .schritte li.an::before{background:#4fc6d9;box-shadow:0 0 0 6px rgba(79,198,217,.18),0 0 24px rgba(79,198,217,.8);transform:scale(1.15)}
+.seite-apple .schritte li h2,.seite-apple .schritte li h3{transition:color .4s}
+.seite-apple .schritte li.an h2,.seite-apple .schritte li.an h3{color:#0a7c9c}
+.v-linie{position:absolute;left:calc(clamp(36px,5vw,64px) * -1 + 7px);top:clamp(30px,4vw,48px);bottom:clamp(30px,4vw,48px);width:2px;background:#e5e5ea;border-radius:2px}
+.v-linie i{position:absolute;inset:0;border-radius:2px;background:linear-gradient(180deg,#9ef0f7,#4fc6d9,#2b8fd6);transform-origin:50% 0;transform:scaleY(0);box-shadow:0 0 14px rgba(79,198,217,.7)}
+.seite-apple .schritte-klein{padding-left:44px}
+.seite-apple .schritte-klein li::before{left:-43px}
+.seite-apple .schritte-klein .v-linie{left:-37px}
+
+/* Fragen */
+.seite-apple .faq details{border-color:#e5e5ea}
+.seite-apple .faq summary{font-size:clamp(19px,1.7vw,23px);letter-spacing:-.02em;padding:26px 0}
+.seite-apple .faq summary i{border-color:#d2d2d7}
+.seite-apple .faq details[open] summary i{border-color:#2b8fd6;background:#2b8fd6}
+.seite-apple .faq details[open] summary i::before,.seite-apple .faq details[open] summary i::after{background:#fff}
+.seite-apple .faq .antwort{overflow:hidden;color:#6e6e73;font-size:18px}
+
+/* Ratgeber-Karten */
+.seite-apple .artikel-liste{border:0;display:grid;gap:16px}
+.seite-apple .artikel-liste a{border:0;background:#f5f5f7;border-radius:24px;padding:clamp(24px,3vw,40px);transition:transform .45s var(--ease),box-shadow .45s var(--ease),background .3s}
+.seite-apple .artikel-liste a:hover{transform:translateY(-6px) scale(1.01);background:#fff;box-shadow:0 30px 60px -30px rgba(43,143,214,.45),0 0 0 1px rgba(79,198,217,.35)}
+.seite-apple .artikel-liste h2{font-size:clamp(22px,2.4vw,32px)}
+.seite-apple .artikel-liste a:hover h2{color:#0a7c9c}
+
+/* Artikel und Rechtstexte */
+.seite-apple .prose{font-size:clamp(17px,1.25vw,19px);line-height:1.7;color:#1d1d1f}
+.seite-apple .prose h2{font-size:clamp(26px,2.6vw,36px);letter-spacing:-.035em}
+.seite-apple .prose a{color:#0a7c9c}
+
+/* Abschluss-Karte */
+.seite-apple .cta-band{border-radius:28px;background:#0d0d0e;padding:clamp(32px,5vw,64px)}
+.seite-apple .cta-band h2{color:#f5f5f7;letter-spacing:-.04em}
+.seite-apple .cta-band.leuchtrand::after{border-radius:28px}
+.seite-apple .cta-band.leuchtrand::before{border-radius:29px}
+
+/* Rechner */
+.seite-apple .ergebnis{border:0;border-radius:24px;box-shadow:0 20px 50px -30px rgba(0,0,0,.25)}
+.seite-apple .ergebnis .gross b{background:var(--verlauf);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.seite-apple .eingabe{border-radius:14px}
+.seite-apple .vorlagen button{border-radius:99px}
+
+/* 250-€-Moment (Vertrieb) */
+.a-zahl-moment{background:#000;text-align:center;padding:clamp(60px,9vw,120px) 0 clamp(80px,11vw,150px);overflow:hidden}
+.a-zahl-moment .a-zahl{font-size:clamp(110px,24vw,360px)}
+.a-zahl-moment p{color:#f5f5f7;font-size:clamp(20px,2.2vw,30px);font-weight:600;letter-spacing:-.02em;margin:10px 0 0}
+
+/* Formulare auf hellem Grund bleiben hell lesbar */
+.seite-apple .abschnitt:not(.night) .leuchtrand:not(.cta-band){background:#fff}
+.seite-apple .abschnitt:not(.night) .leuchtrand:not(.cta-band)::after{background:#fff}
+@media (prefers-reduced-motion:reduce){.a-glut i{animation:none}}
+.seite-apple .cta-band p{color:var(--a-grau)}
+.seite-apple .schritte h2,.seite-apple .schritte h3,.seite-apple .abschnitt h2.wr{hyphens:manual;-webkit-hyphens:manual}
+@media (min-width:641px){.seite-apple .schritte-klein li{grid-template-columns:minmax(170px,.55fr) 1fr}}

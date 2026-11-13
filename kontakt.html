@@ -15,9 +15,10 @@
 <link rel="preload" href="fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css?v=20261113a">
 <script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="bau.css?v=20261113a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "@id": "https://crestra.de/#crestra", "name": "crestra", "url": "https://crestra.de/", "image": "https://crestra.de/og.jpg", "logo": "https://crestra.de/apple-touch-icon.png", "description": "Websites für Betriebe in ganz Deutschland: Erstellung, Hosting, Domain und Pflege für 250 € einmalig und 59 € im Monat.", "founder": {"@type": "Person", "name": "Nils Cremerius"}, "telephone": "+491739128902", "email": "info@crestra.de", "address": {"@type": "PostalAddress", "streetAddress": "Rotsch 31", "postalCode": "52223", "addressLocality": "Stolberg", "addressCountry": "DE"}, "areaServed": [{"@type": "City", "name": "Stolberg (Rheinland)"}, {"@type": "City", "name": "Aachen"}, {"@type": "City", "name": "Eschweiler"}, {"@type": "City", "name": "Würselen"}, {"@type": "City", "name": "Alsdorf"}, {"@type": "City", "name": "Herzogenrath"}, {"@type": "City", "name": "Düren"}, {"@type": "AdministrativeArea", "name": "Städteregion Aachen"}, {"@type": "Country", "name": "Deutschland"}], "priceRange": "250 € einmalig, 59 € monatlich"}</script>
 </head>
-<body>
+<body class="seite-apple">
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <div class="fortschritt" aria-hidden="true"></div>
 <div class="vorhang" aria-hidden="true"></div>
@@ -37,11 +38,12 @@
   </div>
 </div>
 <main id="inhalt">
-<section class="seitenkopf" data-dunkel><canvas class="welle welle-leise" data-welle aria-hidden="true"></canvas><div class="wrap">
+<section class="a-kopf" data-dunkel><div class="a-glut" aria-hidden="true"><i></i><i></i></div><div class="wrap a-kopf-inhalt">
   <nav class="pfad" aria-label="Brotkrümel"><a href="index.html">Start</a> <span aria-hidden="true">/</span> <span aria-current="page">Kontakt</span></nav>
-  <div class="reihe"><h1 class="wr">Ihr <em class="a">Gratis</em>-Entwurf</h1><p class="lead auf">Ein paar Angaben genügen. Wir erstellen Ihren Entwurf und schicken Ihnen den Link – gratis und unverbindlich.</p></div>
+  <h1 class="a-kopf-titel">Ihr <span class="verlauf">Gratis</span>-Entwurf</h1>
+  <p class="a-kopf-lead">Ein paar Angaben genügen. Wir erstellen Ihren Entwurf und schicken Ihnen den Link – gratis und unverbindlich.</p>
 </div></section>
-<section class="abschnitt"><div class="wrap anfrage">
+<section class="abschnitt night"><div class="wrap anfrage">
   <div>
     <h2 class="wr" style="font-size:clamp(28px,3vw,40px)">Lieber direkt?</h2>
     <ul class="liste auf" style="margin-top:24px">
@@ -50,7 +52,7 @@
       <li><strong>Adresse</strong><span>crestra · Nils Cremerius<br>Rotsch 31, 52223 Stolberg</span></li>
     </ul>
   </div>
-  <div class="auf" id="anfrage"><form class="formular" data-anfrage novalidate>
+  <div class="auf leuchtrand" id="anfrage"><form class="formular" data-anfrage novalidate>
   <div class="f"><label for="f-firma-kontakt">Firma</label><input id="f-firma-kontakt" name="firma" autocomplete="organization" required maxlength="200"><span class="fehler-t">Bitte den Firmennamen angeben.</span></div>
   <div class="f"><label for="f-name-kontakt">Ihr Name <small>(optional)</small></label><input id="f-name-kontakt" name="name" autocomplete="name" maxlength="200"></div>
   <div class="f"><label for="f-email-kontakt">E-Mail</label><input id="f-email-kontakt" name="email" type="email" autocomplete="email" required maxlength="200"><span class="fehler-t">Bitte eine gültige E-Mail-Adresse angeben.</span></div>
@@ -87,7 +89,7 @@
 <script src="https://sales.crestra.de/a.js" defer data-privacy="datenschutz.html"></script>
 <script src="welle.js?v=20261113a" defer></script>
 <script src="main.js?v=20261113a" defer></script>
-
+<script src="bau.js?v=20261113a" defer></script>
 <script>addEventListener('pageshow',()=>{const v=document.querySelector('.vorhang');if(v&&sessionStorage.getItem('crestra-intro')){v.classList.add('rein');requestAnimationFrame(()=>requestAnimationFrame(()=>{v.classList.remove('rein');v.classList.add('raus')}))}})</script>
 </body>
 </html>

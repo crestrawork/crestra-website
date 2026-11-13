@@ -48,8 +48,8 @@ def kopf(titel, beschreibung, datei, aktiv=None, jsonld=None, noindex=False, sta
     ld = [ORG] + (jsonld or [])
     ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
     robots = '<meta name="robots" content="noindex">' if noindex else ""
-    importmap = f'<link rel="stylesheet" href="bau.css?v={V}">\n' if startseite else ""
-    koerper = ' class="seite-apple"' if startseite else ""
+    importmap = f'<link rel="stylesheet" href="bau.css?v={V}">\n'
+    koerper = ' class="seite-apple' + (' startseite' if startseite else '') + '"'
     raum = intro = ""
     return f'''<!doctype html>
 <html lang="de">
@@ -116,7 +116,7 @@ def fuss(cta=True, startseite=False):
 <script src="https://sales.crestra.de/a.js" defer data-privacy="datenschutz.html"></script>
 <script src="welle.js?v={V}" defer></script>
 <script src="main.js?v={V}" defer></script>
-{'<script src="bau.js?v=' + V + '" defer></script>' if startseite else ""}
+<script src="bau.js?v={V}" defer></script>
 <script>addEventListener('pageshow',()=>{{const v=document.querySelector('.vorhang');if(v&&sessionStorage.getItem('crestra-intro')){{v.classList.add('rein');requestAnimationFrame(()=>requestAnimationFrame(()=>{{v.classList.remove('rein');v.classList.add('raus')}}))}}}})</script>
 </body>
 </html>
@@ -126,15 +126,17 @@ def fuss(cta=True, startseite=False):
 def seitenkopf(pfad, h1, lead):
     pf = ' <span aria-hidden="true">/</span> '.join(
         [f'<a href="{h}">{t}</a>' if h else f'<span aria-current="page">{t}</span>' for h, t in pfad])
-    return f'''<section class="seitenkopf" data-dunkel><canvas class="welle welle-leise" data-welle aria-hidden="true"></canvas><div class="wrap">
+    h1 = h1.replace('<em class="a">', '<span class="verlauf">').replace('<em class=\\"a\\">', '<span class="verlauf">').replace('</em>', '</span>')
+    return f'''<section class="a-kopf" data-dunkel><div class="a-glut" aria-hidden="true"><i></i><i></i></div><div class="wrap a-kopf-inhalt">
   <nav class="pfad" aria-label="Brotkrümel">{pf}</nav>
-  <div class="reihe"><h1 class="wr">{h1}</h1><p class="lead auf">{lead}</p></div>
+  <h1 class="a-kopf-titel">{h1}</h1>
+  <p class="a-kopf-lead">{lead}</p>
 </div></section>'''
 
 
 def cta_band(titel="Lassen Sie sich gratis einen Entwurf erstellen.", text="Schicken Sie uns Ihre Firma und Ihre jetzige Website. Wir erstellen Ihnen einen Entwurf Ihrer neuen Startseite – gratis und unverbindlich.", branche=None):
     q = f"?branche={branche}" if branche else ""
-    return f'''<section class="abschnitt" style="padding-top:0"><div class="wrap"><div class="cta-band auf">
+    return f'''<section class="abschnitt" style="padding-top:0"><div class="wrap"><div class="cta-band leuchtrand auf">
   <div><h2>{titel}</h2><p>{text}</p></div>
   <a class="btn" href="kontakt.html{q}">Gratis-Entwurf anfordern {PFEIL}</a>
 </div></div></section>'''
@@ -358,6 +360,10 @@ seite("vertrieb.html", "Für Vertriebler – freie Mitarbeit bei crestra",
       seitenkopf([("index.html", "Start"), (None, "Für Vertriebler")], "250 € für jeden <em class=\"a\">Kunden</em>, den Sie gewinnen.",
                  "Sie telefonieren mit Betrieben, wir bauen die Websites. Freie Mitarbeit von zu Hause – wann und wie viel, entscheiden Sie.")
       + f'''
+<section class="a-zahl-moment" data-dunkel><div class="wrap">
+  <span class="a-zahl" data-gross>250 €</span>
+  <p>pro gewonnenem Kunden. Ohne Obergrenze.</p>
+</div></section>
 <section class="abschnitt"><div class="wrap zwei-sp">
   <div><h2 class="wr">So läuft es <em class="a">ab.</em></h2>
     <p class="lead auf" style="margin-top:20px">Sie müssen keine Websites bauen und nichts Technisches verstehen. Sie führen Gespräche – den Rest machen wir.</p></div>
@@ -398,7 +404,7 @@ seite("vertrieb.html", "Für Vertriebler – freie Mitarbeit bei crestra",
       <li><strong>Lieber per E-Mail?</strong><span><a class="link" href="mailto:{FIRMA["mail"]}?subject=Bewerbung%20Vertrieb">{FIRMA["mail"]}</a></span></li>
     </ul>
   </div>
-  <div class="auf">{bewerbung_formular()}</div>
+  <div class="auf leuchtrand">{bewerbung_formular()}</div>
 </div></section>
 ''', cta=False)
 
@@ -418,7 +424,7 @@ seite("leistung.html", "Website-Preis: 250 € + 59 €/Monat – Leistung | cre
 <section class="abschnitt"><div class="wrap preis">
   <div>
     <h2 class="wr">Was enthalten ist</h2>
-    <div class="preiszahl auf"><div><strong>250 €</strong><span>einmalig</span></div><div><strong>59 €</strong><span>im Monat</span></div></div>
+    <div class="preiszahl" data-gross><div><strong>250 €</strong><span>einmalig</span></div><div><strong>59 €</strong><span>im Monat</span></div></div>
     <p class="auf" style="color:var(--ink-2)">Mindestlaufzeit 12 Monate. Danach verlängert sich der Vertrag automatisch und ist monatlich kündbar.</p>
   </div>
   <ul class="drin">
@@ -491,10 +497,13 @@ seite("ueber-uns.html", "Über crestra – Nils Cremerius, Stolberg",
       seitenkopf([("index.html", "Start"), (None, "Über crestra")], "Ein Ansprechpartner. <em class=\"a\">Kein</em> Baukasten.",
                  "crestra ist ein Website-Studio aus Stolberg bei Aachen – für Betriebe in ganz Deutschland. Inhaber ist Nils Cremerius.")
       + f'''
-<section class="abschnitt"><div class="wrap zwei-sp">
+<section class="abschnitt"><div class="wrap">
+  <p class="a-gross" data-woerter>Viele Betriebe machen hervorragende Arbeit – und haben eine Website, die das nicht zeigt.</p>
+</div></section>
+<section class="abschnitt grau"><div class="wrap zwei-sp">
   <div><h2 class="wr">Warum es crestra gibt</h2></div>
   <div class="prose auf">
-    <p>Viele Betriebe machen hervorragende Arbeit – und haben eine Website, die das nicht zeigt. Oft wurde sie vor Jahren mit einem Baukasten gebaut, ist auf dem Handy kaum lesbar, und niemand fühlt sich mehr zuständig.</p>
+    <p>Oft wurde die Website vor Jahren mit einem Baukasten gebaut, ist auf dem Handy kaum lesbar, und niemand fühlt sich mehr zuständig.</p>
     <p>crestra baut jede Seite von Hand, passend zum Betrieb, und kümmert sich danach weiter darum. Sie haben einen festen Ansprechpartner, und Änderungen schicken Sie einfach per E-Mail.</p>
     <p>Weil wir den Entwurf vorher bauen, müssen Sie sich nicht auf Versprechen verlassen. Sie sehen das Ergebnis, bevor Sie sich entscheiden.</p>
   </div>
@@ -504,7 +513,7 @@ seite("ueber-uns.html", "Über crestra – Nils Cremerius, Stolberg",
   <ul class="liste auf">
     <li><strong>Handy zuerst</strong><span>Jede Seite wird auf dem Handy und am Bildschirm getestet, in Chrome und Safari.</span></li>
     <li><strong>Schnell und schlank</strong><span>Keine schweren Baukästen. Schriften liegen auf dem eigenen Server, Karten laden erst auf Klick.</span></li>
-    <li><strong>Ohne Cookie-Banner, wo es geht</strong><span>Ohne Tracking und fremde Dienste braucht eine Seite oft gar keinen Banner – so wie diese hier.</span></li>
+    <li><strong>Ohne Cookie-Banner, wo es geht</strong><span>Ohne Tracking und fremde Dienste braucht eine Seite oft gar keinen Banner. Wer eine Besucherstatistik möchte, bekommt einen schlanken, ehrlichen Hinweis.</span></li>
     <li><strong>Echte Inhalte</strong><span>Ihre Fotos, Ihre Leistungen, Ihre Sprache. Keine erfundenen Kundenstimmen, keine geschönten Zahlen.</span></li>
   </ul>
 </div></section>
@@ -665,7 +674,7 @@ seite("kontakt.html", "Gratis-Entwurf für Ihre Website anfordern – crestra St
       seitenkopf([("index.html", "Start"), (None, "Kontakt")], "Ihr <em class=\"a\">Gratis</em>-Entwurf",
                  "Ein paar Angaben genügen. Wir erstellen Ihren Entwurf und schicken Ihnen den Link – gratis und unverbindlich.")
       + f'''
-<section class="abschnitt"><div class="wrap anfrage">
+<section class="abschnitt night"><div class="wrap anfrage">
   <div>
     <h2 class="wr" style="font-size:clamp(28px,3vw,40px)">Lieber direkt?</h2>
     <ul class="liste auf" style="margin-top:24px">
@@ -674,7 +683,7 @@ seite("kontakt.html", "Gratis-Entwurf für Ihre Website anfordern – crestra St
       <li><strong>Adresse</strong><span>crestra · {FIRMA["inhaber"]}<br>{FIRMA["strasse"]}, {FIRMA["plz"]} {FIRMA["ort"]}</span></li>
     </ul>
   </div>
-  <div class="auf" id="anfrage">{formular("kontakt")}</div>
+  <div class="auf leuchtrand" id="anfrage">{formular("kontakt")}</div>
 </div></section>''', cta=False)
 
 seite("danke.html", "Danke für Ihre Anfrage – crestra", "Ihre Anfrage ist angekommen. Wir melden uns per E-Mail.",
