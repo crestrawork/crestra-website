@@ -73,7 +73,6 @@ def kopf(titel, beschreibung, datei, aktiv=None, jsonld=None, noindex=False, sta
 <body{koerper}>
 {raum}<a class="skip" href="#inhalt">Zum Inhalt springen</a>
 {intro}<div class="fortschritt" aria-hidden="true"></div>
-<div class="vorhang" aria-hidden="true"></div>
 <header class="kopf">
   <div class="wrap">
     {MARKE}
@@ -117,7 +116,6 @@ def fuss(cta=True, startseite=False):
 <script src="welle.js?v={V}" defer></script>
 <script src="main.js?v={V}" defer></script>
 <script src="bau.js?v={V}" defer></script>
-<script>addEventListener('pageshow',()=>{{const v=document.querySelector('.vorhang');if(v&&sessionStorage.getItem('crestra-intro')){{v.classList.add('rein');requestAnimationFrame(()=>requestAnimationFrame(()=>{{v.classList.remove('rein');v.classList.add('raus')}}))}}}})</script>
 </body>
 </html>
 '''
