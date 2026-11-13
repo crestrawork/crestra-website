@@ -145,14 +145,14 @@ const ZIELE = {
   manifest: { stufe: 1, x: 5.7,  y: -2.3,z: -1,  s: .75,  dreh: .5 },
   spiel:    { stufe: 1, x: 7.5,  y: -3.5,z: -2,  s: .0001,dreh: .8 },
   weg:      { stufe: 3, x: 0,    y: -6,  z: -1.5,s: .0001,dreh: 2.2 },
-  marke:    { stufe: 2, x: 0,    y: -3.1,z: 0,   s: .45,  dreh: 1.4 },
+  marke:    { stufe: 2, x: 0,    y: -3.1,z: 0,   s: .0001,dreh: 1.4 },
   wand:     { stufe: 1, x: 5.7,  y: -2.4,z: -1,  s: .65,  dreh: .6 },
   rechner:  { stufe: 0, x: 7.5,  y: 0,   z: -1.5,s: .0001,dreh: .4 },
   preis:    { stufe: 0, x: 5.6,  y: 3.1, z: -1,  s: .5,   dreh: .3 },
   anfrage:  { stufe: 1, x: -5.0, y: -3.0,z: -2,  s: .55,  dreh: .5 },
 };
 const WEG = { s: .0001 };
-const KLEIN = { held: { x: 0, y: 3.55, s: .52 }, manifest: WEG, spiel: WEG, weg: WEG, marke: { x: 0, y: -2.5, s: .45 }, wand: WEG, rechner: WEG, preis: WEG, anfrage: WEG };
+const KLEIN = { held: { x: 0, y: 3.55, s: .52 }, manifest: WEG, spiel: WEG, weg: WEG, marke: WEG, wand: WEG, rechner: WEG, preis: WEG, anfrage: WEG };
 const ist = { stufe: 0, x: ZIELE.held.x, y: ZIELE.held.y, z: 0, s: ZIELE.held.s, dreh: .25 };
 if (klein) Object.assign(ist, KLEIN.held);
 const gehe = (name) => {

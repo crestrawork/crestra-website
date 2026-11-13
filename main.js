@@ -8,17 +8,7 @@
   /* ---------- Lenis + GSAP ---------- */
   let lenis = null;
   if (hatGsap) gsap.registerPlugin(ScrollTrigger);
-  if (!ruhig && typeof window.Lenis !== 'undefined') {
-    lenis = new Lenis({ lerp: .14, smoothWheel: true, wheelMultiplier: 1.05 });
-    if (hatGsap) {
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add(t => lenis.raf(t * 1000));
-      gsap.ticker.lagSmoothing(0);
-    } else {
-      const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
-      requestAnimationFrame(raf);
-    }
-  }
+  /* Kein Lenis mehr (9.11.2026: Nils fand das Nachgleiten zäh) – normales Scrollen */
   const nachLaden = () => hatGsap && ScrollTrigger.refresh();
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(nachLaden);
   addEventListener('load', nachLaden);
@@ -373,7 +363,7 @@
       feld.setAttribute('aria-invalid', !ok);
       return ok;
     };
-    $$('input, select, textarea', f).forEach(i => i.addEventListener('blur', () => { if (i.closest('.f.falsch') || i.value) pruefe(i); }));
+    $$('input, select, textarea', f).forEach(i => ['input', 'change'].forEach(t => i.addEventListener(t, () => { if (i.closest('.f.falsch')) pruefe(i); })));
     f.addEventListener('submit', async e => {
       e.preventDefault();
       if (f.querySelector('.honig input').value) return;
@@ -397,6 +387,42 @@
         const text = encodeURIComponent(`Firma: ${daten.firma}\nName: ${daten.name || ''}\nE-Mail: ${daten.email}\nTelefon: ${daten.telefon || ''}\nWebsite: ${daten.website || ''}\nBranche: ${daten.branche || ''}\nStil: ${daten.stil || ''}\n\n${daten.nachricht || ''}`);
         status.className = 'status fehler';
         status.innerHTML = `Das Senden hat gerade nicht geklappt. <a class="link" href="mailto:info@crestra.de?subject=${encodeURIComponent('Entwurf anfordern: ' + daten.firma)}&body=${text}">Stattdessen per E-Mail schicken</a>`;
+      }
+    });
+  });
+
+  /* ---------- Bewerbung Vertrieb ---------- */
+  $$('form[data-bewerbung]').forEach(f => {
+    const status = $('.status', f), knopf = $('button[type=submit]', f);
+    const pruefe = (feld) => {
+      const box = feld.closest('.f'); if (!box) return true;
+      let ok = feld.checkValidity();
+      if (feld.type === 'email') ok = ok && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(feld.value.trim());
+      if (feld.type === 'tel') ok = ok && feld.value.replace(/\D/g, '').length >= 6;
+      if (feld.required && !feld.value.trim()) ok = false;
+      box.classList.toggle('falsch', !ok); feld.setAttribute('aria-invalid', !ok);
+      return ok;
+    };
+    $$('input, select, textarea', f).forEach(i => ['input', 'change'].forEach(t => i.addEventListener(t, () => { if (i.closest('.f.falsch')) pruefe(i); })));
+    f.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (f.querySelector('.honig input').value) return;
+      if (!$$('[required]', f).map(pruefe).every(Boolean)) { const erst = $('.falsch input', f); erst && erst.focus(); status.className = 'status fehler'; status.textContent = 'Bitte die markierten Felder ausfüllen.'; return; }
+      const daten = {
+        name: f.name.value.trim(), ort: f.ort.value.trim() || null, email: f.email.value.trim(), telefon: f.telefon.value.trim(),
+        erfahrung: f.erfahrung.value || null, stunden: f.stunden.value || null, nachricht: f.nachricht.value.trim() || null,
+        quelle: (location.pathname.split('/').pop() || 'vertrieb.html').slice(0, 120)
+      };
+      knopf.disabled = true; status.className = 'status'; status.textContent = 'Wird gesendet …';
+      try {
+        const res = await fetch(SB.replace('/anfragen', '/bewerbungen'), { method: 'POST', headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(daten) });
+        if (!res.ok) throw new Error(res.status);
+        location.href = 'danke-bewerbung.html';
+      } catch (err) {
+        knopf.disabled = false;
+        const text = encodeURIComponent(`Name: ${daten.name}\nWohnort: ${daten.ort || ''}\nE-Mail: ${daten.email}\nTelefon: ${daten.telefon}\nErfahrung: ${daten.erfahrung || ''}\nZeit pro Woche: ${daten.stunden || ''}\n\n${daten.nachricht || ''}`);
+        status.className = 'status fehler';
+        status.innerHTML = `Das Senden hat gerade nicht geklappt. <a class="link" href="mailto:info@crestra.de?subject=${encodeURIComponent('Bewerbung Vertrieb: ' + daten.name)}&body=${text}">Stattdessen per E-Mail schicken</a>`;
       }
     });
   });

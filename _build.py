@@ -2,7 +2,7 @@
 """crestra – Seitengenerator. Aufruf: python3 _build.py  (schreibt alle .html-Dateien neu)"""
 import json, os
 
-V = "20261004g"
+V = "20261109b"
 BASE = "https://crestra.de/"
 HIER = os.path.dirname(os.path.abspath(__file__))
 
@@ -18,7 +18,7 @@ LOGO = ('<svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height=
 MARKE = '<a class="marke" href="index.html" aria-label="crestra – zur Startseite">crestra<span class="cursor" aria-hidden="true"></span></a>'
 
 NAV = [("leistung.html", "Leistung & Preis"), ("ablauf.html", "Ablauf"),
-       ("ueber-uns.html", "Über crestra"), ("faq.html", "Fragen"), ("ratgeber.html", "Ratgeber")]
+       ("ueber-uns.html", "Über crestra"), ("faq.html", "Fragen"), ("vertrieb.html", "Für Vertriebler")]
 
 ORG = {
     "@context": "https://schema.org", "@type": "ProfessionalService", "@id": BASE + "#crestra",
@@ -106,7 +106,7 @@ def fuss(cta=True, startseite=False):
         <p>{FIRMA["strasse"]}, {FIRMA["plz"]} {FIRMA["ort"]}<br><a href="mailto:{FIRMA["mail"]}">{FIRMA["mail"]}</a><br><a href="tel:{FIRMA["tel_link"]}">{FIRMA["tel"]}</a></p>
       </div>
       <div><h4>Angebot</h4><ul><li><a href="leistung.html">Leistung &amp; Preis</a></li><li><a href="ablauf.html">Ablauf</a></li><li><a href="faq.html">Fragen</a></li><li><a href="website-stolberg-aachen.html">Stolberg &amp; Aachen</a></li></ul></div>
-      <div><h4>Mehr</h4><ul><li><a href="ueber-uns.html">Über crestra</a></li><li><a href="ratgeber.html">Ratgeber</a></li><li><a href="kontakt.html">Kontakt</a></li><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="#cookie-einstellungen" data-cookie-settings>Cookie-Einstellungen</a></li></ul></div>
+      <div><h4>Mehr</h4><ul><li><a href="ueber-uns.html">Über crestra</a></li><li><a href="ratgeber.html">Ratgeber</a></li><li><a href="vertrieb.html">Für Vertriebler</a></li><li><a href="kontakt.html">Kontakt</a></li><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="#cookie-einstellungen" data-cookie-settings>Cookie-Einstellungen</a></li></ul></div>
     </div>
     <div class="unten"><span>© <span data-jahr>2026</span> crestra · {FIRMA["inhaber"]}</span><span>Ohne Werbe-Tracking.</span></div>
   </div>
@@ -114,7 +114,6 @@ def fuss(cta=True, startseite=False):
 {kc}
 <script src="vendor/gsap.min.js" defer></script>
 <script src="vendor/ScrollTrigger.min.js" defer></script>
-<script src="vendor/lenis.min.js" defer></script>
 <script src="https://sales.crestra.de/a.js" defer data-privacy="datenschutz.html"></script>
 <script src="welle.js?v={V}" defer></script>
 <script src="main.js?v={V}" defer></script>
@@ -219,10 +218,6 @@ seite("index.html", "Website erstellen lassen in Stolberg & Aachen | crestra",
   <div class="held-fuss auf" data-v="1.2" aria-hidden="true"><span>250 € einmalig</span><span>59 € im Monat</span><span>Hosting, Domain, Pflege inklusive</span></div>
 </section>
 
-<section class="manifest" data-szene="manifest" aria-label="Worum es geht"><div class="wrap">
-  <p class="manifest-text" data-faerben>Die meisten Websites sehen aus wie alle anderen. Langsam, austauschbar, auf dem Handy kaum lesbar. Ihre Kunden entscheiden in Sekunden – und klicken weiter. <em class="a">Wir bauen Websites, bei denen sie bleiben.</em></p>
-</div></section>
-
 <section class="spiel" data-szene="spiel" aria-label="Effekte zum Ausprobieren"><div class="wrap">
   <div class="kopfzeile"><h2 class="wr">Fühlen Sie <em class="a">mal.</em></h2>
     <p class="lead auf">Kleine Details, die Besucher länger bleiben lassen. Bewegen Sie die Maus darüber – oder tippen Sie auf dem Handy.</p></div>
@@ -237,18 +232,15 @@ seite("index.html", "Website erstellen lassen in Stolberg & Aachen | crestra",
 
 <section class="marke-szene" data-szene="marke" aria-label="crestra"><p class="marke-unter auf">Websites, die bleiben.</p></section>
 
-<section class="weg" data-szene="weg" id="weg" aria-label="So bekommen Sie Ihren Gratis-Entwurf">
-  <div class="weg-klebt">
-    <p class="weg-kopf wrap">So bekommen Sie Ihren Gratis-Entwurf</p>
-    <div class="weg-spur">
-      <article class="weg-tafel"><h2 class="weg-wort">Anfrage</h2><p>Sie schicken uns Ihre Firma und – falls vorhanden – Ihre jetzige Website. Ein paar Angaben genügen, kein Anruf nötig.</p></article>
-      <article class="weg-tafel"><h2 class="weg-wort">Entwurf</h2><p>Wir bauen Ihre neue Startseite. Gratis. Sie bekommen einen Link und sehen sie sich in Ruhe an – am Bildschirm und auf dem Handy.</p></article>
-      <article class="weg-tafel"><h2 class="weg-wort">Entscheidung</h2><p>Gefällt sie Ihnen, machen wir sie fertig. Gefällt sie Ihnen nicht, ist nichts passiert. Kein Risiko, kein Kleingedrucktes.</p></article>
-      <article class="weg-tafel"><h2 class="weg-wort"><em class="a">Live.</em></h2><p>Domain, Hosting, Pflege – wir kümmern uns. Änderungen schicken Sie einfach per E-Mail.</p><a class="btn" href="#anfrage">Jetzt Entwurf anfordern {PFEIL}</a></article>
-    </div>
-    <div class="weg-leiste" aria-hidden="true"><i></i></div>
-  </div>
-</section>
+<section class="schritte4" data-szene="weg" id="weg"><div class="wrap">
+  <h2 class="wr">So bekommen Sie Ihren <em class="a">Gratis-Entwurf.</em></h2>
+  <ol class="vier">
+    <li class="auf"><span class="nr">01</span><h3>Anfrage</h3><p>Sie schicken uns Ihre Firma und – falls vorhanden – Ihre jetzige Website. Kein Anruf nötig.</p></li>
+    <li class="auf"><span class="nr">02</span><h3>Entwurf</h3><p>Wir bauen Ihre neue Startseite. Gratis. Sie bekommen einen Link und sehen sie sich in Ruhe an.</p></li>
+    <li class="auf"><span class="nr">03</span><h3>Entscheidung</h3><p>Gefällt sie Ihnen, machen wir sie fertig. Wenn nicht, ist nichts passiert.</p></li>
+    <li class="auf"><span class="nr">04</span><h3><em class="a">Live.</em></h3><p>Domain, Hosting, Pflege – wir kümmern uns. Änderungen schicken Sie per E-Mail.</p></li>
+  </ol>
+</div></section>
 
 <section class="wand" data-dunkel data-szene="wand" id="fuer-wen"><div class="wrap">
   <p class="wand-kopf auf">Für jeden Betrieb, der <em class="a">gefunden</em> werden will.</p>
@@ -257,10 +249,7 @@ seite("index.html", "Website erstellen lassen in Stolberg & Aachen | crestra",
     <li><strong>Gastronomie</strong><span>Speisekarte, Öffnungszeiten und Anruf mit einem Tipp.</span></li>
     <li><strong>Autohäuser</strong><span>Fahrzeugbestand aus mobile.de direkt auf der eigenen Seite.</span></li>
     <li><strong>Makler</strong><span>Angebote automatisch aus dem Immobilienportal.</span></li>
-    <li><strong>Solar &amp; Energie</strong><span>Leistungen verständlich erklärt, Anfrage mit den richtigen Angaben.</span></li>
     <li><strong>Praxen</strong><span>Leistungen, Team und Sprechzeiten auf einen Blick.</span></li>
-    <li><strong>Handel</strong><span>Sortiment, Anfahrt und aktuelle Angebote.</span></li>
-    <li><strong>Dienstleister</strong><span>Vom Reinigungsdienst bis zur Kanzlei: klar sagen, was Sie tun.</span></li>
   </ul>
   <p class="wand-fuss auf">Ihre Branche ist nicht dabei? <a class="link" href="#anfrage">Fragen Sie trotzdem.</a></p>
 </div></section>
@@ -294,7 +283,92 @@ seite("index.html", "Website erstellen lassen in Stolberg & Aachen | crestra",
   </div>
   <div class="auf">{formular("start")}</div>
 </div></section>
+
+<section class="vertrieb-hinweis" data-szene="anfrage"><div class="wrap"><div class="vt-band auf">
+  <div><p class="vt-klein">Für Vertriebler</p><h2>Sie verkaufen gern? Verdienen Sie <em class="a">250 €</em> pro Kunde.</h2>
+    <p>Freie Mitarbeit von zu Hause, Zeiten bestimmen Sie selbst. Kontakte und Entwürfe bekommen Sie von uns.</p></div>
+  <a class="btn hell" href="vertrieb.html">Mehr erfahren {PFEIL}</a>
+</div></div></section>
 ''', startseite=True)
+
+# =====================================================================  VERTRIEB
+BEW_ERF = ["Noch keine", "Etwas (z. B. Nebenjob, Kundenservice)", "Viel (Vertrieb, Telefonverkauf, Außendienst)"]
+BEW_STD = ["Unter 10 Stunden", "10–20 Stunden", "Mehr als 20 Stunden"]
+
+
+def bewerbung_formular():
+    erf = '<option value="">Bitte wählen</option>' + "".join(f'<option>{t}</option>' for t in BEW_ERF)
+    std = '<option value="">Bitte wählen</option>' + "".join(f'<option>{t}</option>' for t in BEW_STD)
+    return f'''<form class="formular" data-bewerbung novalidate>
+  <div class="f"><label for="b-name">Ihr Name</label><input id="b-name" name="name" autocomplete="name" required maxlength="200"><span class="fehler-t">Bitte Ihren Namen angeben.</span></div>
+  <div class="f"><label for="b-ort">Wohnort <small>(optional)</small></label><input id="b-ort" name="ort" autocomplete="address-level2" maxlength="200"></div>
+  <div class="f"><label for="b-email">E-Mail</label><input id="b-email" name="email" type="email" autocomplete="email" required maxlength="200"><span class="fehler-t">Bitte eine gültige E-Mail-Adresse angeben.</span></div>
+  <div class="f"><label for="b-tel">Telefon</label><input id="b-tel" name="telefon" type="tel" autocomplete="tel" required maxlength="60"><span class="fehler-t">Bitte eine Telefonnummer angeben.</span></div>
+  <div class="f"><label for="b-erf">Erfahrung im Verkauf</label><select id="b-erf" name="erfahrung">{erf}</select></div>
+  <div class="f"><label for="b-std">Zeit pro Woche</label><select id="b-std" name="stunden">{std}</select></div>
+  <div class="f ganz"><label for="b-text">Ein paar Sätze über Sie <small>(optional)</small></label><textarea id="b-text" name="nachricht" maxlength="4000" placeholder="Was haben Sie bisher gemacht? Wann können Sie anfangen?"></textarea></div>
+  <div class="honig" aria-hidden="true"><label for="b-hp">Bitte leer lassen</label><input id="b-hp" name="firmenwebsite2" tabindex="-1" autocomplete="off"></div>
+  <p class="zustimmung ganz">Mit dem Absenden werden Ihre Angaben gespeichert, um Ihre Bewerbung zu bearbeiten. Mehr dazu in der <a class="link" href="datenschutz.html">Datenschutzerklärung</a>.</p>
+  <div class="ganz"><button class="btn" type="submit">Bewerbung abschicken {PFEIL}</button></div>
+  <p class="status ganz" role="status" aria-live="polite"></p>
+</form>'''
+
+
+seite("vertrieb.html", "Für Vertriebler – freie Mitarbeit bei crestra",
+      "Verkaufen Sie Websites an Betriebe: freie Mitarbeit von zu Hause, 250 € Provision pro Kunde, Kontakte und Entwürfe von crestra. Jetzt bewerben.",
+      seitenkopf([("index.html", "Start"), (None, "Für Vertriebler")], "250 € für jeden <em class=\"a\">Kunden</em>, den Sie gewinnen.",
+                 "Sie telefonieren mit Betrieben, wir bauen die Websites. Freie Mitarbeit von zu Hause – wann und wie viel, entscheiden Sie.")
+      + f'''
+<section class="abschnitt"><div class="wrap zwei-sp">
+  <div><h2 class="wr">So läuft es <em class="a">ab.</em></h2>
+    <p class="lead auf" style="margin-top:20px">Sie müssen keine Websites bauen und nichts Technisches verstehen. Sie führen Gespräche – den Rest machen wir.</p></div>
+  <ol class="schritte schritte-klein">
+    <li class="auf"><h3>Kontakte bekommen</h3><div><p>In unserer App finden Sie Betriebe mit veralteter oder fehlender Website – nach Region und Branche sortiert. Niemand sonst ruft dieselben Betriebe an.</p></div></li>
+    <li class="auf"><h3>Gespräch führen</h3><div><p>Sie rufen an, stellen crestra vor und bieten einen kostenlosen Entwurf an. Ein Leitfaden hilft beim Einstieg.</p></div></li>
+    <li class="auf"><h3>Wir bauen den Entwurf</h3><div><p>Will der Betrieb einen Entwurf, geben Sie uns Bescheid. Wir bauen ihn und schicken Ihnen den Link für das zweite Gespräch.</p></div></li>
+    <li class="auf"><h3>Provision kassieren</h3><div><p>Unterschreibt der Kunde, bekommen Sie 250 € – sobald seine Einmalzahlung da ist und die Rücktrittsfrist vorbei ist.</p></div></li>
+  </ol>
+</div></section>
+
+<section class="abschnitt grau"><div class="wrap zwei-sp">
+  <div><h2 class="wr">Was Sie <em class="a">bekommen</em></h2></div>
+  <ul class="drin auf">
+    <li>{HAKEN}<div><strong>250 € pro Kunde</strong><span>Für jeden neuen Kunden, ohne Obergrenze.</span></div></li>
+    <li>{HAKEN}<div><strong>Ein Angebot, das leicht zu verkaufen ist</strong><span>Der Kunde sieht seine Website, bevor er sich entscheidet. 250 € einmalig und 59 € im Monat, alles inklusive.</span></div></li>
+    <li>{HAKEN}<div><strong>Kontakte und Werkzeuge</strong><span>Betriebe in der App, Gesprächsleitfaden, Unterlagen zum Angebot.</span></div></li>
+    <li>{HAKEN}<div><strong>Freie Zeiteinteilung</strong><span>Von zu Hause, neben dem Studium oder als Hauptberuf – Sie entscheiden, wann und wie viel.</span></div></li>
+    <li>{HAKEN}<div><strong>Ein fester Ansprechpartner</strong><span>Fragen klären Sie direkt mit Nils Cremerius, dem Inhaber.</span></div></li>
+  </ul>
+</div></section>
+
+<section class="abschnitt"><div class="wrap zwei-sp">
+  <div><h2 class="wr">Was Sie <em class="a">mitbringen</em></h2></div>
+  <ul class="liste auf">
+    <li><strong>Freude am Telefonieren</strong><span>Sie gehen gern auf Menschen zu und bleiben freundlich, auch wenn jemand Nein sagt.</span></li>
+    <li><strong>Gutes Deutsch</strong><span>Sie sprechen Inhaber von Betrieben an – klar und auf Augenhöhe.</span></li>
+    <li><strong>Selbstständiges Arbeiten</strong><span>Sie arbeiten als freier Handelsvertreter auf eigene Rechnung. Dafür brauchen Sie ein Gewerbe – wir erklären Ihnen, wie das geht.</span></li>
+    <li><strong>Handy oder Computer</strong><span>Mehr Ausrüstung brauchen Sie nicht.</span></li>
+  </ul>
+</div></section>
+
+<section class="abschnitt night" id="bewerben"><div class="wrap anfrage">
+  <div>
+    <h2 class="wr">Jetzt <em class="a">bewerben.</em></h2>
+    <p class="lead auf" style="margin-top:22px">Kein Anschreiben, kein Lebenslauf nötig. Wir melden uns innerhalb weniger Tage für ein kurzes Kennenlernen.</p>
+    <ul class="weiter auf">
+      <li><strong>Lieber per E-Mail?</strong><span><a class="link" href="mailto:{FIRMA["mail"]}?subject=Bewerbung%20Vertrieb">{FIRMA["mail"]}</a></span></li>
+    </ul>
+  </div>
+  <div class="auf">{bewerbung_formular()}</div>
+</div></section>
+''', cta=False)
+
+seite("danke-bewerbung.html", "Danke für Ihre Bewerbung – crestra", "Ihre Bewerbung ist angekommen. Wir melden uns in den nächsten Tagen.",
+      seitenkopf([("index.html", "Start"), ("vertrieb.html", "Für Vertriebler"), (None, "Danke")], "Danke, Ihre Bewerbung ist <em class=\"a\">angekommen.</em>",
+                 "Wir sehen uns Ihre Angaben an und melden uns in den nächsten Tagen per E-Mail oder Telefon.")
+      + '<section class="abschnitt"><div class="wrap"><div class="knoepfe"><a class="btn" href="index.html">Zur Startseite</a><a class="btn zwei" href="leistung.html">Unser Angebot ansehen</a></div></div></section>',
+      noindex=True, cta=False)
+
 
 # =====================================================================  LEISTUNG & PREIS
 seite("leistung.html", "Website-Preis: 250 € + 59 €/Monat – Leistung | crestra",
@@ -448,7 +522,7 @@ def artikel(datei, inhalt_html):
           "datePublished": "2026-10-02", "dateModified": "2026-10-02", "author": {"@type": "Person", "name": FIRMA["inhaber"]},
           "publisher": {"@id": BASE + "#crestra"}, "mainEntityOfPage": BASE + datei}
     seite(datei, mt, b, seitenkopf([("index.html", "Start"), ("ratgeber.html", "Ratgeber"), (None, "Artikel")], t, b)
-          + f'<section class="abschnitt" style="padding-top:clamp(48px,6vw,80px)"><div class="wrap"><article class="prose">{inhalt_html}<p class="klein" style="margin-top:2.5em">Stand: Oktober 2026. Allgemeine Information, keine Rechtsberatung.</p></article></div></section>' + cta_band(),
+          + f'<section class="abschnitt" style="padding-top:clamp(48px,6vw,80px)"><div class="wrap"><article class="prose">{inhalt_html}<p class="klein" style="margin-top:2.5em">Stand: November 2026. Allgemeine Information, keine Rechtsberatung.</p></article></div></section>' + cta_band(),
           aktiv="ratgeber.html", jsonld=[ld])
 
 
@@ -608,11 +682,13 @@ seite("datenschutz.html", "Datenschutzerklärung – crestra", "Wie crestra beim
 <p>Diese Website setzt keine Cookies und verwendet keine Werbedienste. Ihre Auswahl im Einwilligungsbanner wird im Speicher Ihres Browsers abgelegt (§ 25 Abs. 2 TDDDG). Im Speicher Ihres Browsers (Session Storage) wird lediglich vermerkt, dass die Begrüßungsanimation schon gezeigt wurde; dieser Eintrag wird beim Schließen des Tabs gelöscht und ist für die gewünschte Darstellung erforderlich (§ 25 Abs. 2 TDDDG).</p>
 <h2>Anfrageformular</h2>
 <p>Wenn Sie das Formular nutzen, speichern wir Ihre Angaben (Firma, Name, E-Mail, Telefon, Website, Branche, gewünschter Stil, Nachricht) und die Seite, von der Sie die Anfrage geschickt haben, um Ihre Anfrage zu bearbeiten und Ihnen einen Entwurf zu schicken. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags). Die Daten werden in einer Datenbank des Anbieters Supabase gespeichert (Supabase Inc.; Serverstandort Irland, EU) und gelöscht, wenn sie für die Bearbeitung nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+<h2>Bewerbungsformular</h2>
+<p>Wenn Sie sich über das Formular auf der Seite „Für Vertriebler“ bewerben, speichern wir Ihre Angaben (Name, Wohnort, E-Mail, Telefon, Erfahrung, Zeit pro Woche, Nachricht), um Ihre Bewerbung zu prüfen und mit Ihnen Kontakt aufzunehmen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertragsverhältnisses). Die Daten liegen bei unserem Datenbank-Dienstleister Supabase (Server in der EU, Irland). Kommt keine Zusammenarbeit zustande, löschen wir Ihre Angaben spätestens sechs Monate nach der Absage.</p>
 <h2>E-Mail</h2>
 <p>Schreiben Sie uns per E-Mail, verarbeiten wir Ihre Nachricht zur Beantwortung (Art. 6 Abs. 1 lit. b bzw. f DSGVO). Unser E-Mail-Postfach wird bei der STRATO GmbH (Otto-Ostrowski-Straße 7, 10249 Berlin) mit Servern in Deutschland geführt.</p>
 <h2>Ihre Rechte</h2>
 <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch gegen Verarbeitungen auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wenden Sie sich dafür einfach an die oben genannte Adresse. Außerdem können Sie sich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen.</p>
-<p class="klein">Stand: Oktober 2026</p>
+<p class="klein">Stand: November 2026</p>
 </div></div></section>''', cta=False)
 
 # =====================================================================  SCHREIBEN

@@ -573,3 +573,32 @@ main{display:block}
 /* Bühne für den Partikel-Schriftzug */
 .marke-szene{position:relative;height:130vh;display:flex;align-items:flex-end;justify-content:center;padding-bottom:22vh}
 .marke-unter{margin:0;font-size:clamp(18px,1.6vw,22px);color:rgba(238,241,247,.7);letter-spacing:.01em}
+
+/* =================== 9.11.2026: kürzer, normales Scrollen, Vertriebler =================== */
+.btn{white-space:nowrap}
+.marke-szene{height:100vh}
+.schritte4{position:relative;padding:clamp(90px,12vw,160px) 0}
+.schritte4 h2{color:#fff;margin-bottom:clamp(40px,6vw,72px);max-width:16ch}
+.schritte4 h2 em.a{color:#6fd0de}
+.vier{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.4vw,32px)}
+.vier li{padding:22px 0 0;border-top:1px solid rgba(255,255,255,.18)}
+.vier .nr{display:block;font-weight:700;font-size:14px;letter-spacing:.04em;color:#6fd0de;margin-bottom:14px;font-variant-numeric:tabular-nums}
+.vier h3{color:#fff;font-size:clamp(26px,2.6vw,36px);letter-spacing:-.035em;margin-bottom:10px}
+.vier h3 em.a{color:#6fd0de;font-weight:500}
+.vier p{margin:0;color:rgba(238,241,247,.72)}
+@media (max-width:900px){.vier{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:36px}}
+@media (max-width:520px){.vier{grid-template-columns:1fr}}
+.vertrieb-hinweis{position:relative;padding:0 0 clamp(70px,9vw,120px)}
+.vt-band{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;padding:clamp(28px,4vw,48px);border:1px solid rgba(255,255,255,.12);border-left:3px solid #6fd0de;border-radius:var(--r-lg);background:rgba(5,8,15,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#eef1f7}
+.vt-band h2{font-size:clamp(26px,3vw,40px);color:#fff}
+.vt-band h2 em.a{color:#6fd0de}
+.vt-band p{margin:12px 0 0;color:rgba(238,241,247,.72);max-width:40em}
+.vt-band .vt-klein{margin:0 0 10px;font-size:14px;font-weight:650;color:#6fd0de}
+@media (max-width:760px){.vt-band{grid-template-columns:1fr}}
+.schritte-klein li{grid-template-columns:minmax(150px,.5fr) 1fr;padding:22px 0}
+.schritte-klein li h3{font-size:clamp(19px,1.6vw,22px)}
+.schritte-klein li p{margin:0}
+@media (max-width:640px){.schritte-klein li{grid-template-columns:1fr;gap:6px}}
+
+/* Einwilligungs-Banner (sales.crestra.de/a.js): Überschrift nicht im Seiten-h2-Format */
+#crestra-consent h2{font-size:19px!important;line-height:1.3!important;letter-spacing:-.01em!important;margin:0 0 8px!important;color:inherit}
