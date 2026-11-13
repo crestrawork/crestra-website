@@ -373,3 +373,12 @@
 .seite-apple .cta-band p{color:var(--a-grau)}
 .seite-apple .schritte h2,.seite-apple .schritte h3,.seite-apple .abschnitt h2.wr{hyphens:manual;-webkit-hyphens:manual}
 @media (min-width:641px){.seite-apple .schritte-klein li{grid-template-columns:minmax(170px,.55fr) 1fr}}
+/* Handy-Menü im Apple-Look: dunkel wie die Kopfzeile (vorher erbten die Punkte #f5f5f7 auf weißem Grund) */
+.seite-apple .menue{background:#000}
+.seite-apple .menue nav a{color:#f5f5f7;border-bottom-color:rgba(255,255,255,.16)}
+.seite-apple .menue nav a.unter{color:#a1a1a6}
+.seite-apple .menue nav a[aria-current=page]{color:#6fd0de}
+.seite-apple .menue .menue-fuss p{color:#a1a1a6}
+.seite-apple .menue .menue-fuss p a{color:#f5f5f7}
+.menue-offen .seite-apple .kopf .marke{color:#f5f5f7}
+.menue-offen .seite-apple .kopf .burger span{background:#f5f5f7}
